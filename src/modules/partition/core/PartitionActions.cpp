@@ -169,7 +169,7 @@ doAutopartition( PartitionCoreModule* core, Device* dev, Choices::AutoPartitionO
         lastSectorForRoot -= suggestedSwapSizeB / sectorSize + 1;
     }
 
-    core->layoutApply( dev, firstFreeSector, lastSectorForRoot, o.luksPassphrase );
+    core->layoutApply( dev, firstFreeSector, lastSectorForRoot, o.luksFsType, o.luksPassphrase );
 
     if ( shouldCreateSwap )
     {
@@ -194,6 +194,7 @@ doAutopartition( PartitionCoreModule* core, Device* dev, Choices::AutoPartitionO
                                                                      QStringLiteral( "swap" ),
                                                                      lastSectorForRoot + 1,
                                                                      dev->totalLogical() - 1,
+                                                                     o.luksFsType,
                                                                      o.luksPassphrase,
                                                                      KPM_PARTITION_FLAG( None ) );
         }
@@ -215,6 +216,12 @@ doReplacePartition( PartitionCoreModule* core, Device* dev, Partition* partition
     qint64 firstSector, lastSector;
 
     cDebug() << "doReplacePartition for device" << partition->partitionPath();
+
+    // Looking up the defaultFsType (which should name a filesystem type)
+    // will log an error and set the type to Unknown if there's something wrong.
+    FileSystem::Type type = FileSystem::Unknown;
+    PartUtils::canonicalFilesystemName( o.defaultFsType, &type );
+    core->partitionLayout().setDefaultFsType( type == FileSystem::Unknown ? FileSystem::Ext4 : type );
 
     PartitionRole newRoles( partition->roles() );
     if ( partition->roles().has( PartitionRole::Extended ) )
@@ -244,7 +251,7 @@ doReplacePartition( PartitionCoreModule* core, Device* dev, Partition* partition
         core->deletePartition( dev, partition );
     }
 
-    core->layoutApply( dev, firstSector, lastSector, o.luksPassphrase );
+    core->layoutApply( dev, firstSector, lastSector, o.luksFsType, o.luksPassphrase );
 
     core->dumpQueue();
 }

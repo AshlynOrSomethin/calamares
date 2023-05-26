@@ -147,6 +147,7 @@ def find_initcpio_features(partitions, root_mount_point):
         "base",
         "udev",
         "autodetect",
+        "kms",
         "modconf",
         "block",
         "keyboard",
@@ -176,8 +177,6 @@ def find_initcpio_features(partitions, root_mount_point):
              hooks.append("bootsplash-{!s}".format(bootsplash_theme))
 
     for partition in partitions:
-        hooks.extend(["filesystems"])
-
         if partition["fs"] == "linuxswap" and not partition.get("claimed", None):
             # Skip foreign swap
             continue
@@ -225,9 +224,11 @@ def find_initcpio_features(partitions, root_mount_point):
         hooks.append("zfs")
 
     if swap_uuid != "":
-        hooks.extend(["resume"])
         if encrypt_hook and openswap_hook:
             hooks.extend(["openswap"])
+        hooks.extend(["resume", "filesystems"])
+    else:
+        hooks.extend(["filesystems"])
 
     if uses_btrfs:
         modules.append("crc32c-intel" if cpuinfo().is_intel else "crc32c")
