@@ -219,7 +219,7 @@ public:
 
     bool welcomeStyleCalamares() const { return m_welcomeStyleCalamares; }
     bool welcomeExpandingLogo() const { return m_welcomeExpandingLogo; }
-    bool windowFullscreen() const { return m_windowExpansion == WindowExpansion::Fullscreen; }
+    bool windowMaximize() const { return m_windowExpansion == WindowExpansion::Fullscreen; }
     bool windowExpands() const { return m_windowExpansion != WindowExpansion::Fixed; }
     QPair< WindowDimension, WindowDimension > windowSize() const
     {

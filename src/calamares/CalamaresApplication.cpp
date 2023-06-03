@@ -269,11 +269,10 @@ CalamaresApplication::initViewSteps()
 {
     cDebug() << "STARTUP: loadModules for all modules done";
     m_moduleManager->checkRequirements();
-    if ( Calamares::Branding::instance()->windowFullscreen() )
+    if ( Calamares::Branding::instance()->windowMaximize() )
     {
         m_mainwindow->setWindowFlag( Qt::FramelessWindowHint );
-        m_mainwindow->setWindowFlag( Qt::WindowStaysOnTopHint );
-        m_mainwindow->showFullscreen();
+        m_mainwindow->showMaximized();
     }
     else
     {
