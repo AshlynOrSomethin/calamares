@@ -123,10 +123,10 @@ navigation: widget
 strings:
     productName:         Manjaro Linux
     shortProductName:    Manjaro
-    version:             22.0.0
-    shortVersion:        22.0
-    versionedName:       Manjaro Linux 22.0
-    shortVersionedName:  Manjaro 22.0
+    version:             23.0.0
+    shortVersion:        23.0
+    versionedName:       Manjaro Linux 23.0
+    shortVersionedName:  Manjaro 23.0
     bootloaderEntryName: Manjaro
     productUrl:          https://manjaro.org/
     supportUrl:          https://forum.manjaro.org/
@@ -180,10 +180,10 @@ images:
 # branding component also ships a stylesheet.qss. Then they are
 # the corresponding CSS attributes of #sidebarApp.
 style:
-   SidebarBackground:    "#263238"
-   SidebarText:          "#efefef"
-   SidebarTextCurrent:   "#4d915e"
-   SidebarTextHighlight: "#1a1c1b"
+   SidebarBackground:        "#263238"
+   SidebarText:              "#efefef"
+   SidebarTextCurrent:       "#4d915e"
+   SidebarBackgroundCurrent: "#1a1c1b"
 
 
 ### SLIDESHOW
