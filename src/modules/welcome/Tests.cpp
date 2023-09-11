@@ -62,17 +62,17 @@ WelcomeTests::testOneUrl()
 
     // BUILD_AS_TEST is the source-directory path
     QString filename = QStringLiteral( "1a-checkinternet.conf" );
-    QFile fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
+    QFileInfo fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
     QVERIFY( fi.exists() );
 
     bool ok = false;
-    const auto map = CalamaresUtils::loadYaml( fi, &ok );
+    const auto map = CalamaresUtils::loadYaml( QFileInfo( fi ), &ok );
     QVERIFY( ok );
     QVERIFY( map.count() > 0 );
     QVERIFY( map.contains( "requirements" ) );
 
     c.setConfigurationMap( map );
-    QCOMPARE( CalamaresUtils::Network::Manager::instance().getCheckInternetUrls().count(), 1 );
+    QCOMPARE( Calamares::Network::Manager::instance().getCheckInternetUrls().count(), 1 );
 }
 
 void
@@ -100,24 +100,24 @@ WelcomeTests::testUrls()
     Config c;
 
     // BUILD_AS_TEST is the source-directory path
-    QFile fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
+    QFileInfo fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
     QVERIFY( fi.exists() );
 
     bool ok = false;
     const auto map = CalamaresUtils::loadYaml( fi, &ok );
     QVERIFY( ok );
 
-    CalamaresUtils::Network::Manager::instance().setCheckHasInternetUrl( QVector< QUrl > {} );
-    QCOMPARE( CalamaresUtils::Network::Manager::instance().getCheckInternetUrls().count(), 0 );
+    Calamares::Network::Manager::instance().setCheckHasInternetUrl( QVector< QUrl > {} );
+    QCOMPARE( Calamares::Network::Manager::instance().getCheckInternetUrls().count(), 0 );
     c.setConfigurationMap( map );
-    QCOMPARE( CalamaresUtils::Network::Manager::instance().getCheckInternetUrls().count(), result );
+    QCOMPARE( Calamares::Network::Manager::instance().getCheckInternetUrls().count(), result );
 }
 
 void
 WelcomeTests::testBadConfigDoesNotResetUrls()
 {
-    auto& nam = CalamaresUtils::Network::Manager::instance();
-    CalamaresUtils::Network::Manager::instance().setCheckHasInternetUrl( QVector< QUrl > {} );
+    auto& nam = Calamares::Network::Manager::instance();
+    Calamares::Network::Manager::instance().setCheckHasInternetUrl( QVector< QUrl > {} );
     QCOMPARE( nam.getCheckInternetUrls().count(), 0 );
     nam.setCheckHasInternetUrl( QVector< QUrl > { QUrl( "http://example.com" ), QUrl( "https://www.kde.org" ) } );
     QCOMPARE( nam.getCheckInternetUrls().count(), 2 );
@@ -130,7 +130,7 @@ WelcomeTests::testBadConfigDoesNotResetUrls()
         const QString filename = QStringLiteral( "1b-checkinternet.conf" );  // "none"
 
         // BUILD_AS_TEST is the source-directory path
-        QFile fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
+        QFileInfo fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
         QVERIFY( fi.exists() );
 
         bool ok = false;
@@ -147,7 +147,7 @@ WelcomeTests::testBadConfigDoesNotResetUrls()
         const QString filename = QStringLiteral( "1d-checkinternet.conf" );  // "bogus"
 
         // BUILD_AS_TEST is the source-directory path
-        QFile fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
+        QFileInfo fi( QString( "%1/tests/%2" ).arg( BUILD_AS_TEST, filename ) );
         QVERIFY( fi.exists() );
 
         bool ok = false;

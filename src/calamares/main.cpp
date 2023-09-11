@@ -19,9 +19,9 @@
 // From 3rdparty/
 #include "kdsingleapplication.h"
 
-#include <KCoreAddons/KAboutData>
-#ifdef BUILD_KF5Crash
-#include <KCrash/KCrash>
+#include <KAboutData>
+#ifdef BUILD_CRASH_REPORTING
+#include <KCrash>
 #endif
 
 #include <QCommandLineParser>
@@ -107,7 +107,10 @@ handle_args( CalamaresApplication& a )
 int
 main( int argc, char* argv[] )
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
+    // Not needed in Qt6
+    QApplication::setAttribute( Qt::AA_EnableHighDpiScaling );
+#endif
     CalamaresApplication a( argc, argv );
 
     KAboutData aboutData( "calamares",
@@ -122,7 +125,7 @@ main( int argc, char* argv[] )
     KAboutData::setApplicationData( aboutData );
     a.setApplicationDisplayName( QString() );  // To avoid putting an extra "Calamares/" into the log-file
 
-#ifdef BUILD_KF5Crash
+#ifdef BUILD_CRASH_REPORTING
     KCrash::initialize();
     // KCrash::setCrashHandler();
     KCrash::setDrKonqiEnabled( true );

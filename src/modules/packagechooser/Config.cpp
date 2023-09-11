@@ -23,6 +23,7 @@
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
+#include "compat/Variant.h"
 #include "packages/Globals.h"
 #include "utils/Logger.h"
 #include "utils/Variant.h"
@@ -113,9 +114,9 @@ Config::introductionPackage() const
             = QT_TR_NOOP( "Please pick a product from the list. The selected product will be installed." );
         defaultIntroduction = new PackageItem( QString(), name, description );
         defaultIntroduction->screenshot = QPixmap( QStringLiteral( ":/images/no-selection.png" ) );
-        defaultIntroduction->name = CalamaresUtils::Locale::TranslatedString( name, metaObject()->className() );
+        defaultIntroduction->name = Calamares::Locale::TranslatedString( name, metaObject()->className() );
         defaultIntroduction->description
-            = CalamaresUtils::Locale::TranslatedString( description, metaObject()->className() );
+            = Calamares::Locale::TranslatedString( description, metaObject()->className() );
     }
     return *defaultIntroduction;
 }
@@ -143,7 +144,7 @@ Config::updateGlobalStorage( const QStringList& selected ) const
     {
         QStringList packageNames = m_model->getInstallPackagesForNames( selected );
         cDebug() << m_defaultId << "packages to install" << packageNames;
-        CalamaresUtils::Packages::setGSPackageAdditions(
+        Calamares::Packages::setGSPackageAdditions(
             Calamares::JobQueue::instance()->globalStorage(), m_defaultId, packageNames );
     }
     else if ( m_method == PackageChooserMethod::NetAdd )
@@ -175,7 +176,7 @@ Config::updateGlobalStorage( const QStringList& selected ) const
         if ( gs->contains( "netinstallSelect" ) )
         {
             auto selectedOrig = gs->value( "netinstallSelect" );
-            if ( selectedOrig.canConvert( QVariant::StringList ) )
+            if ( selectedOrig.canConvert< QStringList >() )
             {
                 newSelected += selectedOrig.toStringList();
             }
@@ -356,7 +357,7 @@ Config::setConfigurationMap( const QVariantMap& configurationMap )
     {
         if ( labels.contains( "step" ) )
         {
-            m_stepName = new CalamaresUtils::Locale::TranslatedString( labels, "step" );
+            m_stepName = new Calamares::Locale::TranslatedString( labels, "step" );
         }
     }
 }

@@ -24,4 +24,6 @@ calamares_add_plugin(keyboardq
     RESOURCES
         keyboardq.qrc
     SHARED_LIB
+    LINK_LIBRARIES
+        ${qtname}::DBus
 )

@@ -147,7 +147,7 @@ loadLocales( const QString& localeGenPath )
 }
 
 static bool
-updateGSLocation( Calamares::GlobalStorage* gs, const CalamaresUtils::Locale::TimeZoneData* location )
+updateGSLocation( Calamares::GlobalStorage* gs, const Calamares::Locale::TimeZoneData* location )
 {
     const QString regionKey = QStringLiteral( "locationRegion" );
     const QString zoneKey = QStringLiteral( "locationZone" );
@@ -176,14 +176,14 @@ updateGSLocation( Calamares::GlobalStorage* gs, const CalamaresUtils::Locale::Ti
 static void
 updateGSLocale( Calamares::GlobalStorage* gs, const LocaleConfiguration& locale )
 {
-    CalamaresUtils::Locale::insertGS( *gs, locale.toMap(), CalamaresUtils::Locale::InsertMode::Overwrite );
+    Calamares::Locale::insertGS( *gs, locale.toMap(), Calamares::Locale::InsertMode::Overwrite );
 }
 
 Config::Config( QObject* parent )
     : QObject( parent )
-    , m_regionModel( std::make_unique< CalamaresUtils::Locale::RegionsModel >() )
-    , m_zonesModel( std::make_unique< CalamaresUtils::Locale::ZonesModel >() )
-    , m_regionalZonesModel( std::make_unique< CalamaresUtils::Locale::RegionalZonesModel >( m_zonesModel.get() ) )
+    , m_regionModel( std::make_unique< Calamares::Locale::RegionsModel >() )
+    , m_zonesModel( std::make_unique< Calamares::Locale::ZonesModel >() )
+    , m_regionalZonesModel( std::make_unique< Calamares::Locale::RegionalZonesModel >( m_zonesModel.get() ) )
 {
     // Slightly unusual: connect to our *own* signals. Wherever the language
     // or the location is changed, these signals are emitted, so hook up to
@@ -245,7 +245,7 @@ Config::setCurrentLocation()
 void
 Config::setCurrentLocation( const QString& regionzone )
 {
-    auto r = CalamaresUtils::GeoIP::splitTZString( regionzone );
+    auto r = Calamares::GeoIP::splitTZString( regionzone );
     if ( r.isValid() )
     {
         setCurrentLocation( r.first, r.second );
@@ -255,7 +255,7 @@ Config::setCurrentLocation( const QString& regionzone )
 void
 Config::setCurrentLocation( const QString& regionName, const QString& zoneName )
 {
-    using namespace CalamaresUtils::Locale;
+    using namespace Calamares::Locale;
     auto* zone = m_zonesModel->find( regionName, zoneName );
     if ( zone )
     {
@@ -269,7 +269,7 @@ Config::setCurrentLocation( const QString& regionName, const QString& zoneName )
 }
 
 void
-Config::setCurrentLocation( const CalamaresUtils::Locale::TimeZoneData* location )
+Config::setCurrentLocation( const Calamares::Locale::TimeZoneData* location )
 {
     const bool updateLocation = ( location != m_currentLocation );
     if ( updateLocation )
@@ -315,7 +315,7 @@ Config::automaticLocaleConfiguration() const
     }
 
     auto* gs = Calamares::JobQueue::instance()->globalStorage();
-    QString lang = CalamaresUtils::Locale::readGS( *gs, QStringLiteral( "LANG" ) );
+    QString lang = Calamares::Locale::readGS( *gs, QStringLiteral( "LANG" ) );
     if ( lang.isEmpty() )
     {
         lang = QLocale().name();
@@ -459,23 +459,23 @@ getAdjustLiveTimezone( const QVariantMap& configurationMap, bool& adjustLiveTime
 }
 
 static inline void
-getStartingTimezone( const QVariantMap& configurationMap, CalamaresUtils::GeoIP::RegionZonePair& startingTimezone )
+getStartingTimezone( const QVariantMap& configurationMap, Calamares::GeoIP::RegionZonePair& startingTimezone )
 {
     QString region = CalamaresUtils::getString( configurationMap, "region" );
     QString zone = CalamaresUtils::getString( configurationMap, "zone" );
     if ( !region.isEmpty() && !zone.isEmpty() )
     {
-        startingTimezone = CalamaresUtils::GeoIP::RegionZonePair( region, zone );
+        startingTimezone = Calamares::GeoIP::RegionZonePair( region, zone );
     }
     else
     {
         startingTimezone
-            = CalamaresUtils::GeoIP::RegionZonePair( QStringLiteral( "America" ), QStringLiteral( "New_York" ) );
+            = Calamares::GeoIP::RegionZonePair( QStringLiteral( "America" ), QStringLiteral( "New_York" ) );
     }
 
     if ( CalamaresUtils::getBool( configurationMap, "useSystemTimezone", false ) )
     {
-        auto systemtz = CalamaresUtils::GeoIP::splitTZString( QTimeZone::systemTimeZoneId() );
+        auto systemtz = Calamares::GeoIP::splitTZString( QTimeZone::systemTimeZoneId() );
         if ( systemtz.isValid() )
         {
             cDebug() << "Overriding configured timezone" << startingTimezone << "with system timezone" << systemtz;
@@ -485,7 +485,7 @@ getStartingTimezone( const QVariantMap& configurationMap, CalamaresUtils::GeoIP:
 }
 
 static inline void
-getGeoIP( const QVariantMap& configurationMap, std::unique_ptr< CalamaresUtils::GeoIP::Handler >& geoip )
+getGeoIP( const QVariantMap& configurationMap, std::unique_ptr< Calamares::GeoIP::Handler >& geoip )
 {
     bool ok = false;
     QVariantMap map = CalamaresUtils::getSubMap( configurationMap, "geoip", ok );
@@ -495,7 +495,7 @@ getGeoIP( const QVariantMap& configurationMap, std::unique_ptr< CalamaresUtils::
         QString style = CalamaresUtils::getString( map, "style" );
         QString selector = CalamaresUtils::getString( map, "selector" );
 
-        geoip = std::make_unique< CalamaresUtils::GeoIP::Handler >( style, url, selector );
+        geoip = std::make_unique< Calamares::GeoIP::Handler >( style, url, selector );
         if ( !geoip->isValid() )
         {
             cWarning() << "GeoIP Style" << style << "is not recognized.";
@@ -549,10 +549,10 @@ Config::startGeoIP()
 {
     if ( m_geoip && m_geoip->isValid() )
     {
-        auto& network = CalamaresUtils::Network::Manager::instance();
+        auto& network = Calamares::Network::Manager::instance();
         if ( network.hasInternet() || network.synchronousPing( m_geoip->url() ) )
         {
-            using Watcher = QFutureWatcher< CalamaresUtils::GeoIP::RegionZonePair >;
+            using Watcher = QFutureWatcher< Calamares::GeoIP::RegionZonePair >;
             m_geoipWatcher = std::make_unique< Watcher >();
             m_geoipWatcher->setFuture( m_geoip->query() );
             connect( m_geoipWatcher.get(), &Watcher::finished, this, &Config::completeGeoIP );

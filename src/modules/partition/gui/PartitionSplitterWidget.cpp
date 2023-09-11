@@ -27,7 +27,7 @@
 #include <QPainterPath>
 #include <QStyleOption>
 
-using CalamaresUtils::Partition::PartitionIterator;
+using Calamares::Partition::PartitionIterator;
 
 static const int VIEW_HEIGHT
     = qMax( CalamaresUtils::defaultFontHeight() + 8,  // wins out with big fonts
@@ -103,7 +103,7 @@ PartitionSplitterWidget::init( Device* dev, bool drawNestedPartitions )
     {
         PartitionSplitterItem newItem = { ( *it )->partitionPath(),
                                           ColorUtils::colorForPartition( *it ),
-                                          CalamaresUtils::Partition::isPartitionFreeSpace( *it ),
+                                          Calamares::Partition::isPartitionFreeSpace( *it ),
                                           ( *it )->capacity(),
                                           PartitionSplitterItem::Normal,
                                           {} };
@@ -340,7 +340,11 @@ PartitionSplitterWidget::mousePressEvent( QMouseEvent* event )
 {
     if ( m_itemToResize && m_itemToResizeNext && event->button() == Qt::LeftButton )
     {
+#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
         if ( qAbs( event->x() - m_resizeHandleX ) < HANDLE_SNAP )
+#else
+        if ( qAbs( event->position().x() - m_resizeHandleX ) < HANDLE_SNAP )
+#endif
         {
             m_resizing = true;
         }
@@ -393,7 +397,11 @@ PartitionSplitterWidget::mouseMoveEvent( QMouseEvent* event )
         int ew = rect().width();  //effective width
         qreal bpp = total / static_cast< qreal >( ew );  //bytes per pixel
 
+#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
         qreal mx = event->x() * bpp - start;
+#else
+        qreal mx = event->position().x() * bpp - start;
+#endif
 
         // make sure we are within resize range
         mx = qBound( static_cast< qreal >( m_itemMinSize ), mx, static_cast< qreal >( m_itemMaxSize ) );
@@ -428,7 +436,11 @@ PartitionSplitterWidget::mouseMoveEvent( QMouseEvent* event )
     {
         if ( m_itemToResize && m_itemToResizeNext )
         {
+#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
             if ( qAbs( event->x() - m_resizeHandleX ) < HANDLE_SNAP )
+#else
+            if ( qAbs( event->position().x() - m_resizeHandleX ) < HANDLE_SNAP )
+#endif
             {
                 setCursor( Qt::SplitHCursor );
             }

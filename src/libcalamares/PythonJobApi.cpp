@@ -79,7 +79,7 @@ mount( const std::string& device_path,
        const std::string& filesystem_name,
        const std::string& options )
 {
-    return CalamaresUtils::Partition::mount( QString::fromStdString( device_path ),
+    return Calamares::Partition::mount( QString::fromStdString( device_path ),
                                              QString::fromStdString( mount_point ),
                                              QString::fromStdString( filesystem_name ),
                                              QString::fromStdString( options ) );
@@ -281,7 +281,7 @@ _gettext_languages()
     Calamares::GlobalStorage* gs
         = jq ? jq->globalStorage() : CalamaresPython::GlobalStoragePythonWrapper::globalStorageInstance();
 
-    QString lang = CalamaresUtils::Locale::readGS( *gs, QStringLiteral( "LANG" ) );
+    QString lang = Calamares::Locale::readGS( *gs, QStringLiteral( "LANG" ) );
     if ( !lang.isEmpty() )
     {
         languages.append( lang );

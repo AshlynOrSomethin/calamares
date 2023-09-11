@@ -283,7 +283,7 @@ fillGSConfigurationEFI( Calamares::GlobalStorage* gs, const QVariantMap& configu
     if ( configurationMap.contains( "efiSystemPartitionSize" ) )
     {
         const QString sizeString = CalamaresUtils::getString( configurationMap, "efiSystemPartitionSize" );
-        CalamaresUtils::Partition::PartitionSize part_size = CalamaresUtils::Partition::PartitionSize( sizeString );
+        Calamares::Partition::PartitionSize part_size = Calamares::Partition::PartitionSize( sizeString );
         if ( part_size.isValid() )
         {
             // Insert once as string, once as a size-in-bytes;
@@ -412,9 +412,11 @@ Config::setConfigurationMap( const QVariantMap& configurationMap )
     m_allowZfsEncryption = CalamaresUtils::getBool( configurationMap, "allowZfsEncryption", true );
 
     m_allowManualPartitioning = CalamaresUtils::getBool( configurationMap, "allowManualPartitioning", true );
+    m_showNotEncryptedBootMessage = CalamaresUtils::getBool( configurationMap, "showNotEncryptedBootMessage", true );
     m_requiredPartitionTableType = CalamaresUtils::getStringList( configurationMap, "requiredPartitionTableType" );
 
     Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
+    gs->insert( "armInstall", CalamaresUtils::getBool( configurationMap, "armInstall", false ) );
     fillGSConfigurationEFI( gs, configurationMap );
     fillConfigurationFSTypes( configurationMap );
 }
