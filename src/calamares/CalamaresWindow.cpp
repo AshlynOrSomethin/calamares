@@ -19,7 +19,7 @@
 #include "Settings.h"
 #include "ViewManager.h"
 #include "progresstree/ProgressTreeView.h"
-#include "utils/CalamaresUtilsGui.h"
+#include "utils/Gui.h"
 #include "utils/Logger.h"
 #include "utils/Qml.h"
 #include "utils/Retranslator.h"
@@ -64,7 +64,7 @@ windowDimensionToPixels( const Calamares::Branding::WindowDimension& u )
     }
     if ( u.unit() == Calamares::Branding::WindowDimensionUnit::Fonties )
     {
-        return static_cast< int >( u.value() * CalamaresUtils::defaultFontHeight() );
+        return static_cast< int >( u.value() * Calamares::defaultFontHeight() );
     }
     return 0;
 }
@@ -145,19 +145,18 @@ getWidgetSidebar( Calamares::DebugWindowManager* debug,
     QHBoxLayout* extraButtons = new QHBoxLayout;
     sideLayout->addLayout( extraButtons );
 
-    const int defaultFontHeight = CalamaresUtils::defaultFontHeight();
+    const int defaultFontHeight = Calamares::defaultFontHeight();
 
     if ( /* About-Calamares Button enabled */ true )
     {
         QPushButton* aboutDialog = new QPushButton;
         aboutDialog->setObjectName( "aboutButton" );
-        aboutDialog->setIcon( CalamaresUtils::defaultPixmap( CalamaresUtils::Information,
-                                                             CalamaresUtils::Original,
-                                                             2 * QSize( defaultFontHeight, defaultFontHeight ) ) );
+        aboutDialog->setIcon( Calamares::defaultPixmap(
+            Calamares::Information, Calamares::Original, 2 * QSize( defaultFontHeight, defaultFontHeight ) ) );
         CALAMARES_RETRANSLATE_FOR(
-            aboutDialog, aboutDialog->setText( QCoreApplication::translate( "calamares-sidebar", "About" ) );
+            aboutDialog, aboutDialog->setText( QCoreApplication::translate( "calamares-sidebar", "About", "@button" ) );
             aboutDialog->setToolTip(
-                QCoreApplication::translate( "calamares-sidebar", "Show information about Calamares" ) ); );
+                QCoreApplication::translate( "calamares-sidebar", "Show information about Calamares", "@tooltip" ) ); );
         extraButtons->addWidget( aboutDialog );
         aboutDialog->setFlat( true );
         aboutDialog->setCheckable( true );
@@ -167,12 +166,12 @@ getWidgetSidebar( Calamares::DebugWindowManager* debug,
     {
         QPushButton* debugWindowBtn = new QPushButton;
         debugWindowBtn->setObjectName( "debugButton" );
-        debugWindowBtn->setIcon( CalamaresUtils::defaultPixmap(
-            CalamaresUtils::Bugs, CalamaresUtils::Original, 2 * QSize( defaultFontHeight, defaultFontHeight ) ) );
+        debugWindowBtn->setIcon( Calamares::defaultPixmap(
+            Calamares::Bugs, Calamares::Original, 2 * QSize( defaultFontHeight, defaultFontHeight ) ) );
         CALAMARES_RETRANSLATE_FOR(
-            debugWindowBtn, debugWindowBtn->setText( QCoreApplication::translate( "calamares-sidebar", "Debug" ) );
+            debugWindowBtn, debugWindowBtn->setText( QCoreApplication::translate( "calamares-sidebar", "Debug", "@button" ) );
             debugWindowBtn->setToolTip(
-                QCoreApplication::translate( "calamares-sidebar", "Show debug information" ) ); );
+                QCoreApplication::translate( "calamares-sidebar", "Show debug information", "@tooltip" ) ); );
         extraButtons->addWidget( debugWindowBtn );
         debugWindowBtn->setFlat( true );
         debugWindowBtn->setCheckable( true );
@@ -181,7 +180,7 @@ getWidgetSidebar( Calamares::DebugWindowManager* debug,
             debug, &Calamares::DebugWindowManager::visibleChanged, debugWindowBtn, &QPushButton::setChecked );
     }
 
-    CalamaresUtils::unmarginLayout( sideLayout );
+    Calamares::unmarginLayout( sideLayout );
     return sideBox;
 }
 
@@ -200,7 +199,7 @@ getWidgetNavigation( Calamares::DebugWindowManager*,
     {
         auto* back
             = new QPushButton( getButtonIcon( QStringLiteral( "go-previous" ) ),
-                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Back" ),
+                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Back", "@button" ),
                                navigation );
         back->setObjectName( "view-button-back" );
         back->setEnabled( viewManager->backEnabled() );
@@ -216,7 +215,7 @@ getWidgetNavigation( Calamares::DebugWindowManager*,
     {
         auto* next
             = new QPushButton( getButtonIcon( QStringLiteral( "go-next" ) ),
-                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Next" ),
+                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Next", "@button" ),
                                navigation );
         next->setObjectName( "view-button-next" );
         next->setEnabled( viewManager->nextEnabled() );
@@ -233,7 +232,7 @@ getWidgetNavigation( Calamares::DebugWindowManager*,
     {
         auto* quit
             = new QPushButton( getButtonIcon( QStringLiteral( "dialog-cancel" ) ),
-                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Cancel" ),
+                               QCoreApplication::translate( CalamaresWindow::staticMetaObject.className(), "&Cancel", "@button" ),
                                navigation );
         quit->setObjectName( "view-button-cancel" );
         QObject::connect( quit, &QPushButton::clicked, viewManager, &Calamares::ViewManager::quit );
@@ -276,7 +275,6 @@ setDimension( QQuickWidget* w, Qt::Orientation o, int desiredWidth )
     w->setResizeMode( QQuickWidget::SizeRootObjectToView );
 }
 
-
 static QWidget*
 getQmlSidebar( Calamares::DebugWindowManager* debug,
                Calamares::ViewManager*,
@@ -284,15 +282,15 @@ getQmlSidebar( Calamares::DebugWindowManager* debug,
                Qt::Orientation o,
                int desiredWidth )
 {
-    CalamaresUtils::registerQmlModels();
+    Calamares::registerQmlModels();
     QQuickWidget* w = new QQuickWidget( parent );
     if ( debug )
     {
         w->engine()->rootContext()->setContextProperty( "debug", debug );
     }
 
-    w->setSource( QUrl(
-        CalamaresUtils::searchQmlFile( CalamaresUtils::QmlSearch::Both, QStringLiteral( "calamares-sidebar" ) ) ) );
+    w->setSource(
+        QUrl( Calamares::searchQmlFile( Calamares::QmlSearch::Both, QStringLiteral( "calamares-sidebar" ) ) ) );
     setDimension( w, o, desiredWidth );
     return w;
 }
@@ -304,14 +302,14 @@ getQmlNavigation( Calamares::DebugWindowManager* debug,
                   Qt::Orientation o,
                   int desiredWidth )
 {
-    CalamaresUtils::registerQmlModels();
+    Calamares::registerQmlModels();
     QQuickWidget* w = new QQuickWidget( parent );
     if ( debug )
     {
         w->engine()->rootContext()->setContextProperty( "debug", debug );
     }
-    w->setSource( QUrl(
-        CalamaresUtils::searchQmlFile( CalamaresUtils::QmlSearch::Both, QStringLiteral( "calamares-navigation" ) ) ) );
+    w->setSource(
+        QUrl( Calamares::searchQmlFile( Calamares::QmlSearch::Both, QStringLiteral( "calamares-navigation" ) ) ) );
     setDimension( w, o, desiredWidth );
     return w;
 }
@@ -392,7 +390,7 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
     , m_debugManager( new Calamares::DebugWindowManager( this ) )
     , m_viewManager( nullptr )
 {
-    installEventFilter( CalamaresUtils::Retranslator::instance() );
+    installEventFilter( Calamares::Retranslator::instance() );
 
     // If we can never cancel, don't show the window-close button
     if ( Calamares::Settings::instance()->disableCancel() )
@@ -400,6 +398,7 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
         setWindowFlag( Qt::WindowCloseButtonHint, false );
     }
 
+    // %1 is the distribution name
     CALAMARES_RETRANSLATE( const auto* branding = Calamares::Branding::instance();
                            setWindowTitle( Calamares::Settings::instance()->isSetupMode()
                                                ? tr( "%1 Setup Program" ).arg( branding->productName() )
@@ -408,10 +407,10 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
     const Calamares::Branding* const branding = Calamares::Branding::instance();
     using ImageEntry = Calamares::Branding::ImageEntry;
 
-    using CalamaresUtils::windowMinimumHeight;
-    using CalamaresUtils::windowMinimumWidth;
-    using CalamaresUtils::windowPreferredHeight;
-    using CalamaresUtils::windowPreferredWidth;
+    using Calamares::windowMinimumHeight;
+    using Calamares::windowMinimumWidth;
+    using Calamares::windowPreferredHeight;
+    using Calamares::windowPreferredWidth;
 
     using PanelSide = Calamares::Branding::PanelSide;
 
@@ -438,7 +437,7 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
     {
         QWidget* label = new QWidget( this );
         QVBoxLayout* l = new QVBoxLayout;
-        CalamaresUtils::unmarginLayout( l );
+        Calamares::unmarginLayout( l );
         l->addWidget( label );
         setLayout( l );
         label->setObjectName( "backgroundWidget" );
@@ -467,14 +466,14 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
     QBoxLayout* contentsLayout = new QVBoxLayout;
     contentsLayout->setSpacing( 0 );
 
-    QWidget* sideBox = flavoredWidget(
-        branding->sidebarFlavor(),
-        ::orientation( branding->sidebarSide() ),
-        m_debugManager,
-        baseWidget,
-        ::getWidgetSidebar,
-        ::getQmlSidebar,
-        qBound( 100, CalamaresUtils::defaultFontHeight() * 12, w < windowPreferredWidth ? 100 : 190 ) );
+    QWidget* sideBox
+        = flavoredWidget( branding->sidebarFlavor(),
+                          ::orientation( branding->sidebarSide() ),
+                          m_debugManager,
+                          baseWidget,
+                          ::getWidgetSidebar,
+                          ::getQmlSidebar,
+                          qBound( 100, Calamares::defaultFontHeight() * 12, w < windowPreferredWidth ? 100 : 190 ) );
     QWidget* navigation = flavoredWidget( branding->navigationFlavor(),
                                           ::orientation( branding->navigationSide() ),
                                           m_debugManager,
@@ -506,8 +505,8 @@ CalamaresWindow::CalamaresWindow( QWidget* parent )
         ( contentsLayout->count() > 1 ? Qt::Orientations( Qt::Horizontal ) : Qt::Orientations() )
         | ( mainLayout->count() > 1 ? Qt::Orientations( Qt::Vertical ) : Qt::Orientations() ) );
 
-    CalamaresUtils::unmarginLayout( mainLayout );
-    CalamaresUtils::unmarginLayout( contentsLayout );
+    Calamares::unmarginLayout( mainLayout );
+    Calamares::unmarginLayout( contentsLayout );
     baseWidget->setLayout( mainLayout );
     setStyleSheet( Calamares::Branding::instance()->stylesheet() );
 }

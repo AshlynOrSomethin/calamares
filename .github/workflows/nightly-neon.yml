@@ -20,21 +20,20 @@ jobs:
       options: --tmpfs /build:rw --user 0:0
     steps:
       - name: "prepare source"
-        uses: calamares/actions/generic-checkout@v4
+        uses: calamares/actions/generic-checkout@v5
       - name: "install dependencies"
         shell: bash
-        run: |
-          ./github/workflows/nightly-neon.sh
+        run: ./ci/deps-neon.sh
       - name: "build"
-        id: build
-        uses: calamares/actions/generic-build@v4
+        shell: bash
+        run: ./ci/build.sh
       - name: "Calamares: archive"
         working-directory: ${{ env.BUILDDIR }}
         run: |
-          make install DESTDIR=${{ env.BUILDDIR }}/stage
+          DESTDIR=${{ env.BUILDDIR }}/stage ninja install
           tar czf calamares.tar.gz stage
       - name: "Calamares: upload"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: calamares-tarball
           path: ${{ env.BUILDDIR }}/calamares.tar.gz

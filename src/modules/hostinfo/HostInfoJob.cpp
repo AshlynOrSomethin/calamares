@@ -11,7 +11,7 @@
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
-#include "utils/CalamaresUtilsSystem.h"
+#include "utils/System.h"
 #include "utils/Logger.h"
 #include "utils/Units.h"
 
@@ -34,7 +34,6 @@ HostInfoJob::HostInfoJob( QObject* parent )
 }
 
 HostInfoJob::~HostInfoJob() {}
-
 
 QString
 HostInfoJob::prettyName() const
@@ -172,7 +171,6 @@ hostCPU()
 #endif
 }
 
-
 Calamares::JobResult
 HostInfoJob::exec()
 {
@@ -184,7 +182,7 @@ HostInfoJob::exec()
     gs->insert( "hostCPU", hostCPU() );
 
     // Memory can't be negative, so it's reported as unsigned long.
-    auto ram = CalamaresUtils::BytesToMiB( qint64( CalamaresUtils::System::instance()->getTotalMemoryB().first ) );
+    auto ram = Calamares::BytesToMiB( qint64( Calamares::System::instance()->getTotalMemoryB().first ) );
     if ( ram )
     {
         gs->insert( "hostRAMMiB", ram );

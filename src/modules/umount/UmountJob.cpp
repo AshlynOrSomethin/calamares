@@ -15,7 +15,7 @@
 #include "UmountJob.h"
 
 #include "partition/Mount.h"
-#include "utils/CalamaresUtilsSystem.h"
+#include "utils/System.h"
 #include "utils/Logger.h"
 #include "utils/Variant.h"
 
@@ -103,7 +103,7 @@ exportZFSPools()
 
     for ( const auto& poolName : poolNames )
     {
-        auto result = CalamaresUtils::System::runCommand( { "zpool", "export", poolName }, std::chrono::seconds( 30 ) );
+        auto result = Calamares::System::runCommand( { "zpool", "export", poolName }, std::chrono::seconds( 30 ) );
         if ( result.getExitCode() )
         {
             cWarning() << "Failed to export pool" << result.getOutput();
@@ -113,11 +113,10 @@ exportZFSPools()
     return Calamares::JobResult::ok();
 }
 
-
 Calamares::JobResult
 UmountJob::exec()
 {
-    const auto* sys = CalamaresUtils::System::instance();
+    const auto* sys = Calamares::System::instance();
     if ( !sys )
     {
         return Calamares::JobResult::internalError(

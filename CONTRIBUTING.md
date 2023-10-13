@@ -36,6 +36,9 @@ room, `#calamares:kde.org`. Responsiveness is best during the day
 in Europe, but feel free to idle.
 Matrix is persistent, and we'll see your message eventually.
 
+**Note:** You need an account to access Matrix. It doesn't have to be a KDE account,
+it can be on any Matrix homeserver.
+
 * [![Join us on Matrix](https://img.shields.io/badge/Matrix-%23calamares:kde.org-blue)](https://webchat.kde.org/#/room/%23calamares:kde.org)
 
 
@@ -74,48 +77,68 @@ instructions are on the wiki.
 ### Simple Build in Docker
 
 You may have success with the Docker images that the CI system uses.
-Pick one (or both):
+Pick one (or more) of these images which are also used in CI:
 - `docker pull docker://opensuse/tumbleweed`
 - `docker pull kdeneon/plasma:user`
+- `docker pull fedora:38`
 
 Then start a container with the right image, from the root of Calamares
-source checkout. Pick one:
-- `docker run  -ti --tmpfs /build:rw --user 0:0 -v .:/src opensuse/tumbleweed `
-- `docker run  -ti --tmpfs /build:rw --user 0:0 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -v .:/src kdeneon/plasma:user bash`
-This starts a container with the chosen image (openSUSE Tumbleweed or KDE neon,
-here) with a temporary build directory in `/build` and the Calamares
-sources mounted as `/src`. KDE neon needs some extra settings to avoid
-starting a complete desktop.
+source checkout. Start with this command and substitute `opensuse/tumbleweed`
+or `kdeneon/plasma:user` for the `$IMAGE` part.
+
+```
+docker run -ti \
+    --tmpfs /build:rw,exec \
+    --user 0:0 \
+    -e DISPLAY=:0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v .:/src \
+    $IMAGE \
+    bash
+```
+
+This starts a container with the chosen image with a temporary build
+directory in `/build` and the Calamaressources mounted as `/src`.
 
 Run the script to install dependencies: you could use `deploycala.py`
-or one of the shell scripts in `.github/workflows` to install the right
-dependencies for the image.
+or one of the shell scripts in `ci/` to install the right
+dependencies for the image (in this example, for openSUSE and Qt6).
 - `cd /src`
-- `./.github/workflows/nightly-opensuse-qt6.sh`
+- `./ci/deps-opensuse-qt6.sh`
 
-Then run CMake (add any CMake options you like at the end) and ninja:
+Then run CMake (add any CMake options you like at the end) and ninja.
+There is a script `ci/build.sh` that does this, too (without options).
 - `cmake -S /src -B /build -G Ninja`
 - `ninja -C /build`
 
-### Dependencies
+To run Calamares inside the container, or e.g. `loadmodule` to test
+individual modules, you may need to configure X authentication; a
+simple and insecure way of doing that is to run `xhost +` in the host
+environment of the Docker containers.
+
+### Dependencies for Calamares 3.3
+
+> The dependencies for Calamares 3.3 reflect "resonably current"
+> software as of September 2023. For Calamares 3.2 dependencies,
+> which are 2017-era, see the `CONTRIBUTING` file in that branch.
 
 Main:
 * Compiler with C++17 support
 * CMake >= 3.16
-* Qt >= 5.15
 * yaml-cpp >= 0.5.1
+* Qt >= 5.15 or Qt >= 6.5
 * KDE Frameworks KCoreAddons >= 5.78
-* Python >= 3.6 (required for some modules)
-* Boost.Python >= 1.72.0 (required for some modules)
 * KDE extra-cmake-modules >= 5.78 (recommended; required for some modules;
   required for some tests)
+* Python >= 3.6 (required for some modules)
+* Boost.Python >= 1.72.0 (required for some modules)
 
 Individual modules may have their own requirements;
 these are listed in CMake output.
 Particular requirements (not complete):
 
-* *fsresizer* KPMCore >= 3.3 (>= 4.2 recommended)
-* *partition* KPMCore >= 3.3 (>= 4.2 recommended)
+* *fsresizer* KPMCore >= 20.04
+* *partition* KPMCore >= 20.04
 * *users* LibPWQuality (optional)
 
 
