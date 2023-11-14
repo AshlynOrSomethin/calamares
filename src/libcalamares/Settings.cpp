@@ -250,6 +250,7 @@ Settings::Settings( bool debugMode )
 
 Settings::Settings( const QString& settingsFilePath, bool debugMode )
     : QObject()
+    , m_settingsPath( settingsFilePath )
     , m_debug( debugMode )
     , m_doChroot( true )
     , m_promptInstall( false )
@@ -384,10 +385,12 @@ settingsFileCandidates( bool assumeBuilddir )
             settingsPaths << QDir::current().absoluteFilePath( settings );
         }
         if ( Calamares::haveExtraDirs() )
+        {
             for ( auto s : Calamares::extraConfigDirs() )
             {
                 settingsPaths << ( s + settings );
             }
+        }
         settingsPaths << CMAKE_INSTALL_FULL_SYSCONFDIR "/calamares/settings.conf";  // String concat
         settingsPaths << Calamares::appDataDir().absoluteFilePath( settings );
     }

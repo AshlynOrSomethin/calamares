@@ -23,8 +23,9 @@
 #   WITH_<foo>      : try to enable <foo> (these usually default to ON). For
 #                     a list of WITH_<foo> grep CMakeCache.txt after running
 #                     CMake once. These affect the ABI offered by Calamares.
-#                       - PYTHON (enable Python Job modules)
-#                       - QML (enable QML UI View modules)
+#                       - PYBIND11 (use bundled pybind11, default ON, needs WITH_PYTHON)
+#                       - PYTHON (enable Python Job modules, default ON if Python is found)
+#                       - QML (enable QML UI View modules, default ON)
 #                       - QT6 (use Qt6 rather than Qt5, default to OFF)
 #                     The WITH_* options affect the ABI of Calamares: you must
 #                     build (C++) modules for Calamares with the same WITH_*
@@ -46,8 +47,8 @@
 
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
-set(CALAMARES_VERSION 3.3.0-alpha4)
-set(CALAMARES_RELEASE_MODE OFF) # Set to ON during a release
+set(CALAMARES_VERSION 3.3.0-alpha5)
+set(CALAMARES_RELEASE_MODE ON) # Set to ON during a release
 
 if(CMAKE_SCRIPT_MODE_FILE)
     include(${CMAKE_CURRENT_LIST_DIR}/CMakeModules/ExtendedVersion.cmake)
@@ -78,9 +79,11 @@ set(CALAMARES_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 #
 option(INSTALL_POLKIT "Install Polkit configuration" ON)
 option(INSTALL_COMPLETION "Install shell completions" OFF)
+option(INSTALL_CONFIG "Install configuration files" OFF)
 # When adding WITH_* that affects the ABI offered by libcalamares,
 # also update libcalamares/CalamaresConfig.h.in
-option(WITH_PYTHON "Enable Python modules API (requires Boost.Python)." ON)
+option(WITH_PYBIND11 "Use bundled pybind11 instead o Boost::Python" ON)
+option(WITH_PYTHON "Enable Python modules API." ON)
 option(WITH_QML "Enable QML UI options." ON)
 option(WITH_QT6 "Use Qt6 instead of Qt5" OFF)
 #
@@ -151,16 +154,16 @@ set(CALAMARES_DESCRIPTION_SUMMARY "The distribution-independent installer framew
 # NOTE: update these lines by running `txstats.py`, or for full automation
 #       `txstats.py -e`. See also
 #
-# Total 75 languages
-set( _tx_complete az az_AZ ca fi_FI fr he hr ja ko lt pt_BR pt_PT
-    sv tr_TR uk zh_TW )
-set( _tx_good as be ca@valencia cs_CZ da de es fa fur hi it_IT ml
-    nl ru si sk sq tg vi zh_CN )
-set( _tx_ok ar ast bg bn el en_GB es_MX et eu gl hu id is mr nb oc
-    pl ro sl sr sr@latin th )
-set( _tx_incomplete eo es_PR gu ie ja-Hira kk kn lo lv mk ne_NP
-    ta_IN te ur uz zh zh_HK )
-# Total 75 languages
+# Total 80 languages
+set( _tx_complete az_AZ ca en es fi_FI fr he hr ja lt pl sq sv
+    tr_TR uk zh_TW )
+set( _tx_good as az be bg ca@valencia cs_CZ da de fa fur hi is
+    it_IT ko nl pt_BR pt_PT ru si sk tg vi zh_CN )
+set( _tx_ok ar ast bn el en_GB eo es_AR es_MX et eu gl hu id ml mr
+    nb oc ro sl sr sr@latin th )
+set( _tx_incomplete bqi es_PR gu ie ja-Hira ka kk kn lo lv mk ne_NP
+    ro_RO ta_IN te ur uz zh zh_HK )
+# Total 80 languages
 
 ### Required versions
 #
@@ -418,15 +421,12 @@ if(Python_Interpreter_FOUND)
         # and if they are not installed, don't run. If errors out
         # with exit(1) on missing dependencies.
         if(CALAMARES_CONFIGVALIDATOR_CHECKED)
+            message(STATUS "Using cached config-validation result")
             set(_validator_deps ${CALAMARES_CONFIGVALIDATOR_RESULT})
         else()
-            exec_program(
-                ${Python_EXECUTABLE}
-                ARGS
-                "${CMAKE_SOURCE_DIR}/ci/configvalidator.py"
-                -x
-                RETURN_VALUE
-                _validator_deps
+            execute_process(
+                COMMAND ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/ci/configvalidator.py" -x
+                RESULT_VARIABLE _validator_deps
             )
             set(CALAMARES_CONFIGVALIDATOR_CHECKED TRUE CACHE INTERNAL "Dependencies for configvalidator checked")
             set(CALAMARES_CONFIGVALIDATOR_RESULT ${_validator_deps}
@@ -435,36 +435,47 @@ if(Python_Interpreter_FOUND)
         endif()
         # It should never succeed, but only returns 1 when the imports fail
         if(_validator_deps EQUAL 1)
+            message(STATUS "Checked for config-validation dependencies: NOT-FOUND")
             set(_schema_explanation " Missing dependencies for configvalidator.py.")
             set(BUILD_SCHEMA_TESTING OFF)
+        else()
+            message(STATUS "Checked for config-validation dependencies: found")
         endif()
+    else()
+        set(CALAMARES_CONFIGVALIDATOR_CHECKED OFF CACHE INTERNAL "Dependencies for configvalidator checked")
     endif()
 else()
     # Can't run schema tests without Python3.
     set(_schema_explanation " Missing Python3.")
     set(BUILD_SCHEMA_TESTING OFF)
+    set(CALAMARES_CONFIGVALIDATOR_CHECKED OFF CACHE INTERNAL "Dependencies for configvalidator checked")
 endif()
 add_feature_info(yaml-schema BUILD_SCHEMA_TESTING "Validate YAML (config files) with schema.${_schema_explanation}")
 
-if(Python_Development_FOUND)
+if(NOT Python_Development_FOUND)
+    message(STATUS "Disabling Python modules")
+    set(WITH_PYTHON OFF)
+    set(WITH_PYBIND11 OFF)
+endif()
+
+if(WITH_PYTHON AND NOT WITH_PYBIND11)
     find_package(boost_python)
     if(NOT TARGET Boost::python)
         find_package(Boost ${BOOSTPYTHON_VERSION} COMPONENTS python)
-        set_package_properties(Boost PROPERTIES PURPOSE "Boost.Python is used for Python job modules.")
+        set_package_properties(Boost PROPERTIES
+            PURPOSE "Boost.Python is used for Python job modules (because WITH_PYBIND11 is OFF)."
+            TYPE REQUIRED
+        )
     else()
         message(STATUS "Found boost_python with target Boost::python")
         set(Boost_FOUND ON)
     endif()
 endif()
 
-if(NOT Python_Development_FOUND OR NOT Boost_FOUND)
-    message(STATUS "Disabling Boost::Python modules")
-    set(WITH_PYTHON OFF)
-endif()
-
 # Now we know the state of the ABI-options, copy them into "Calamares_"
 # prefixed variables, to match how the variables would-be-named
 # when building out-of-tree.
+set(Calamares_WITH_PYBIND11 ${WITH_PYBIND11})
 set(Calamares_WITH_PYTHON ${WITH_PYTHON})
 set(Calamares_WITH_QML ${WITH_QML})
 set(Calamares_WITH_QT6 ${WITH_QT6})
@@ -497,6 +508,10 @@ if(tx_errors)
 endif()
 
 set(CALAMARES_TRANSLATION_LANGUAGES en ${_tx_complete} ${_tx_good} ${_tx_ok})
+if(NOT CALAMARES_RELEASE_MODE)
+    # Outside of release mode, enable all the languages
+    list(APPEND CALAMARES_TRANSLATION_LANGUAGES ${_tx_incomplete})
+endif()
 list(SORT CALAMARES_TRANSLATION_LANGUAGES)
 
 add_subdirectory(lang) # i18n tools
@@ -595,9 +610,13 @@ include(GNUInstallDirs)
 set(Calamares_LIBRARIES calamares)
 
 add_subdirectory(3rdparty/kdsingleapplication)
+if(WITH_PYBIND11)
+    add_subdirectory(3rdparty/pybind11)
+endif()
 add_subdirectory(src)
 
 add_feature_info(Python ${WITH_PYTHON} "Python job modules")
+add_feature_info(Pybind11 ${WITH_PYBIND11} "Python using bundled pybind11")
 add_feature_info(Qml ${WITH_QML} "QML UI support")
 add_feature_info(Polkit ${INSTALL_POLKIT} "Install Polkit files")
 add_feature_info(KCrash ${BUILD_CRASH_REPORTING} "Crash dumps via KCrash")
@@ -663,6 +682,10 @@ endif()
 install(FILES calamares.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
 install(FILES man/calamares.8 DESTINATION ${CMAKE_INSTALL_MANDIR}/man8/)
+
+if(INSTALL_CONFIG)
+    install(FILES settings.conf DESTINATION share/calamares)
+endif()
 
 ### Uninstall
 #

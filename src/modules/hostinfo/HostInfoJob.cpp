@@ -11,16 +11,14 @@
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
-#include "utils/System.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 #include "utils/Units.h"
 
 #include <QDir>
 #include <QFile>
 
-#ifdef WITH_KOSRelease
 #include <KOSRelease>
-#endif
 
 #ifdef Q_OS_FREEBSD
 #include <sys/types.h>
@@ -38,7 +36,7 @@ HostInfoJob::~HostInfoJob() {}
 QString
 HostInfoJob::prettyName() const
 {
-    return tr( "Collecting information about your machine." );
+    return tr( "Collecting information about your machine…", "@status" );
 }
 
 QString
@@ -56,13 +54,11 @@ hostOS()
 QString
 hostOSName()
 {
-#ifdef WITH_KOSRelease
     KOSRelease r;
     if ( !r.name().isEmpty() )
     {
         return r.name();
     }
-#endif
     return hostOS();
 }
 

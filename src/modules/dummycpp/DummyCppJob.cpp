@@ -19,8 +19,8 @@
 #include "JobQueue.h"
 
 #include "compat/Variant.h"
-#include "utils/System.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 
 DummyCppJob::DummyCppJob( QObject* parent )
     : Calamares::CppJob( parent )
@@ -32,7 +32,7 @@ DummyCppJob::~DummyCppJob() {}
 QString
 DummyCppJob::prettyName() const
 {
-    return tr( "Dummy C++ Job" );
+    return tr( "Performing dummy C++ job…", "@status" );
 }
 
 static QString variantListToString( const QVariantList& variantList );

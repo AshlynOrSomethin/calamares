@@ -23,9 +23,9 @@
 #include "modulesystem/Requirement.h"
 #include "network/Manager.h"
 #include "utils/Gui.h"
-#include "utils/System.h"
 #include "utils/Logger.h"
 #include "utils/Retranslator.h"
+#include "utils/System.h"
 #include "utils/Units.h"
 #include "utils/Variant.h"
 #include "widgets/WaitingWidget.h"
@@ -306,12 +306,12 @@ getCheckInternetUrls( const QVariantMap& configurationMap )
         {
             cWarning() << "GeneralRequirements entry 'internetCheckUrl' contains no valid URLs, "
                        << "reverting to default (" << exampleUrl << ").";
-            Calamares::Network::Manager::instance().setCheckHasInternetUrl( QUrl( exampleUrl ) );
+            Calamares::Network::Manager::setCheckHasInternetUrl( QUrl( exampleUrl ) );
             incomplete = true;
         }
         else
         {
-            Calamares::Network::Manager::instance().setCheckHasInternetUrl( urls );
+            Calamares::Network::Manager::setCheckHasInternetUrl( urls );
         }
     }
     else
@@ -319,7 +319,7 @@ getCheckInternetUrls( const QVariantMap& configurationMap )
         cWarning() << "GeneralRequirements entry 'internetCheckUrl' is undefined in welcome.conf, "
                       "reverting to default ("
                    << exampleUrl << ").";
-        Calamares::Network::Manager::instance().setCheckHasInternetUrl( QUrl( exampleUrl ) );
+        Calamares::Network::Manager::setCheckHasInternetUrl( QUrl( exampleUrl ) );
         incomplete = true;
     }
     return incomplete;
@@ -367,10 +367,12 @@ GeneralRequirements::setConfigurationMap( const QVariantMap& configurationMap )
 
     // Help out with consistency, but don't fix
     for ( const auto& r : m_entriesToRequire )
+    {
         if ( !m_entriesToCheck.contains( r ) )
         {
             cWarning() << "GeneralRequirements requires" << r << "but does not check it.";
         }
+    }
 
     if ( configurationMap.contains( "requiredStorage" )
          && ( Calamares::typeOf( configurationMap.value( "requiredStorage" ) ) == Calamares::DoubleVariantType
@@ -502,7 +504,7 @@ GeneralRequirements::checkHasPower()
 bool
 GeneralRequirements::checkHasInternet()
 {
-    auto& nam = Calamares::Network::Manager::instance();
+    Calamares::Network::Manager nam;
     bool hasInternet = nam.checkHasInternet();
     Calamares::JobQueue::instance()->globalStorage()->insert( "hasInternet", hasInternet );
     return hasInternet;

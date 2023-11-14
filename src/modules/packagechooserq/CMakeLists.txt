@@ -46,7 +46,7 @@ if(BUILD_APPSTREAM)
         TYPE OPTIONAL
     )
     if(AppStreamQt_FOUND)
-        add_definitions(-DHAVE_APPSTREAM)
+        add_definitions(-DHAVE_APPSTREAM_VERSION=${AppStreamQt_VERSION_MAJOR})
         list(APPEND _extra_libraries AppStreamQt)
         list(APPEND _extra_src ${_packagechooser}/ItemAppStream.cpp)
     endif()
@@ -61,7 +61,7 @@ calamares_add_plugin(packagechooserq
         ${_packagechooser}/PackageModel.cpp
         ${_extra_src}
     RESOURCES
-        packagechooserq.qrc
+        packagechooserq${QT_VERSION_SUFFIX}.qrc
     LINK_PRIVATE_LIBRARIES
         calamaresui
         ${_extra_libraries}

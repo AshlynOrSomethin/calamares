@@ -18,9 +18,9 @@
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
-#include "utils/System.h"
 #include "utils/Logger.h"
 #include "utils/NamedEnum.h"
+#include "utils/System.h"
 #include "utils/Units.h"
 
 #include <kpmcore/core/device.h>
@@ -118,7 +118,7 @@ doAutopartition( PartitionCoreModule* core, Device* dev, Choices::AutoPartitionO
 
     if ( isEfi )
     {
-        qint64 uefisys_part_sizeB = PartUtils::efiFilesystemMinimumSize();
+        qint64 uefisys_part_sizeB = PartUtils::efiFilesystemRecommendedSize();
         qint64 efiSectorCount = Calamares::bytesToSectors( uefisys_part_sizeB, dev->logicalSize() );
         Q_ASSERT( efiSectorCount > 0 );
 

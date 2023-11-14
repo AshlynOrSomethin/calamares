@@ -14,8 +14,8 @@
 #include "GlobalStorage.h"
 #include "JobQueue.h"
 #include "network/Manager.h"
-#include "utils/System.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 
 #include <KMacroExpander>
 
@@ -113,10 +113,10 @@ TrackingInstallJob::exec()
     using Calamares::Network::RequestOptions;
     using Calamares::Network::RequestStatus;
 
-    auto result = Manager::instance().synchronousPing(
-        QUrl( m_url ),
-        RequestOptions( RequestOptions::FollowRedirect | RequestOptions::FakeUserAgent,
-                        RequestOptions::milliseconds( 5000 ) ) );
+    auto result
+        = Manager().synchronousPing( QUrl( m_url ),
+                                     RequestOptions( RequestOptions::FollowRedirect | RequestOptions::FakeUserAgent,
+                                                     RequestOptions::milliseconds( 5000 ) ) );
     if ( result.status == RequestStatus::Timeout )
     {
         cWarning() << "install-tracking request timed out.";

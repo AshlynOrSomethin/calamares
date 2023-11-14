@@ -9,8 +9,8 @@
 
 #include "InitramfsJob.h"
 
-#include "utils/System.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 #include "utils/UMask.h"
 #include "utils/Variant.h"
 
@@ -24,7 +24,7 @@ InitramfsJob::~InitramfsJob() {}
 QString
 InitramfsJob::prettyName() const
 {
-    return tr( "Creating initramfs." );
+    return tr( "Creating initramfs…", "@status" );
 }
 
 Calamares::JobResult

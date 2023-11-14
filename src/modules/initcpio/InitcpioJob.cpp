@@ -10,8 +10,8 @@
 
 #include "InitcpioJob.h"
 
-#include "utils/System.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 #include "utils/UMask.h"
 #include "utils/Variant.h"
 
@@ -28,7 +28,7 @@ InitcpioJob::~InitcpioJob() {}
 QString
 InitcpioJob::prettyName() const
 {
-    return tr( "Creating initramfs with mkinitcpio." );
+    return tr( "Creating initramfs with mkinitcpio…", "@status" );
 }
 
 /** @brief Sets secure permissions on each initramfs

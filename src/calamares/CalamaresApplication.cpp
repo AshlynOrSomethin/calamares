@@ -20,10 +20,10 @@
 #include "ViewManager.h"
 #include "locale/TranslationsModel.h"
 #include "modulesystem/ModuleManager.h"
-#include "utils/Gui.h"
-#include "utils/System.h"
 #include "utils/Dirs.h"
+#include "utils/Gui.h"
 #include "utils/Logger.h"
+#include "utils/System.h"
 #ifdef WITH_QML
 #include "utils/Qml.h"
 #endif
@@ -66,6 +66,8 @@ CalamaresApplication::init()
 {
     Logger::setupLogfile();
     cDebug() << "Calamares version:" << CALAMARES_VERSION;
+    cDebug() << Logger::SubEntry << "Using settings:" << Calamares::Settings::instance()->path();
+    cDebug() << Logger::SubEntry << "Using log file:" << Logger::logFile();
     cDebug() << Logger::SubEntry << "languages:" << Calamares::Locale::availableLanguages();
 
     if ( !Calamares::Settings::instance() )
@@ -121,10 +123,12 @@ brandingFileCandidates( bool assumeBuilddir, const QString& brandingFilename )
             brandingPaths << ( QDir::currentPath() + QStringLiteral( "/src/" ) + brandingFilename );
         }
         if ( Calamares::haveExtraDirs() )
+        {
             for ( auto s : Calamares::extraDataDirs() )
             {
                 brandingPaths << ( s + brandingFilename );
             }
+        }
         brandingPaths << QDir( CMAKE_INSTALL_FULL_SYSCONFDIR "/calamares/" ).absoluteFilePath( brandingFilename );
         brandingPaths << Calamares::appDataDir().absoluteFilePath( brandingFilename );
     }
