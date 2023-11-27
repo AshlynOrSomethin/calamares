@@ -1,16 +1,16 @@
-import QtQuick 2.15
 import QtQml 2.15
+import QtQuick 2.15
 
 Item {
     id: root
 
-    function onActivate(){
+    function onActivate() {
         timer.restart();
         slider.reset();
         artwork.state = "nearGround";
     }
 
-    function onLeave(){
+    function onLeave() {
     }
 
     width: 800
@@ -18,12 +18,12 @@ Item {
 
     Timer {
         id: timer
+
         interval: 20000
         running: false
         repeat: true
         onTriggered: slider.currentSlideIndex++
     }
-
 
     MouseArea {
         anchors.fill: parent
@@ -35,13 +35,14 @@ Item {
 
     Artwork {
         id: artwork
+
         anchors.fill: parent
     }
 
     Slider {
         id: slider
-        height: 50
 
+        height: 50
         slides: [
             Slide {
                 title: qsTr("Hello")
@@ -62,14 +63,57 @@ Item {
                 body: qsTr("It's time to relax and prepare for new adventures.")
                 footer: qsTr("Check our forum and wiki if you have any questions or feedback.")
             }
-
         ]
+
         anchors {
             centerIn: parent
             horizontalCenterOffset: -100
             verticalCenterOffset: -57
         }
+
+    }
+
+    Row {
+        id: sponsoredBy
+
+        spacing: 5
+
+        anchors {
+            bottom: parent.bottom
+            right: parent.right
+            margins: 10
+        }
+
+        Text {
+            height: 30
+            font.family: "Montserrat"
+            color: "white"
+            text: qsTr("Brought to you by")
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Image {
+            source: "sponsor.svg"
+            onStatusChanged: {
+                if ((status == Image.Error))
+                    sponsoredBy.visible = false;
+
+            }
+
+            sourceSize {
+                height: 30
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    Qt.openUrlExternally("./sponsor.html");
+                }
+            }
+
+        }
+
     }
 
 }
-

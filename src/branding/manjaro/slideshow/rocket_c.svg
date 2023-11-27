@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="180"
-   height="2161.1172"
-   viewBox="0 0 180.00002 2161.1172"
+   width="50.609062"
+   height="161.49271"
+   viewBox="0 0 50.609068 161.49271"
    version="1.1"
    id="svg8"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
-   sodipodi:docname="rocket_smoke.svg"
+   sodipodi:docname="rocket_c.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -17,18 +17,7 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs2">
-    <inkscape:path-effect
-       effect="fill_between_many"
-       method="originald"
-       linkedpaths="#path1,0,1|#path1-3,0,1"
-       id="path-effect1"
-       is_visible="true"
-       lpeversion="0"
-       join="true"
-       close="true"
-       autoreverse="true" />
-  </defs>
+     id="defs2" />
   <sodipodi:namedview
      id="base"
      pagecolor="#525252"
@@ -36,16 +25,16 @@
      borderopacity="1"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="239.5"
-     inkscape:cy="123.5"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="44.762385"
+     inkscape:cy="126.71101"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1914"
      inkscape:window-height="1047"
-     inkscape:window-x="224"
-     inkscape:window-y="103"
+     inkscape:window-x="646"
+     inkscape:window-y="3"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0"
      units="px"
@@ -71,15 +60,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-76.437684,-610.36914)">
-    <path
-       d="m 146.55002,879.85008 c -4.41459,300.59272 -2.95941,1202.63332 -62.708406,1803.34952 -2.44536,29.4296 -4.91534,58.8581 -7.40393,88.2867 H 256.43768 c -2.48859,-29.4286 -4.95857,-58.8571 -7.40392,-88.2867 -59.74901,-600.7162 -58.29383,-1502.7569 -62.70842,-1803.34952 -4.41459,-300.59265 -35.36073,-300.59268 -39.77532,0 z"
-       style="fill:#eff0f1;stroke-width:1.38281"
-       id="path3"
-       sodipodi:nodetypes="zcccczz" />
+     transform="translate(-149.54261,-610.36914)">
     <g
        id="g250475"
-       transform="matrix(-0.13168343,0,0,0.13168343,396.42611,757.91908)"
+       transform="matrix(-0.13168343,0,0,0.13168343,404.83556,757.91908)"
        style="display:inline">
       <path
          style="fill:#1a1c1b;fill-opacity:1"
