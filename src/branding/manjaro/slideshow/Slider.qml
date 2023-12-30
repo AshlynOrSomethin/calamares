@@ -2,6 +2,7 @@ import QtQuick 2.15
 
 Item {
     property list<Slide> slides
+
     property int currentSlideIndex: 0
     property int _currentSlideIndex: 0
     property int slidesSize: slides.length
@@ -17,6 +18,7 @@ Item {
             firstIteration = false;
             currentSlideIndex = 0;
         }
+
         transitionAnimation.start();
     }
 
@@ -26,128 +28,104 @@ Item {
 
         Text {
             id: titleText
-
-            color: "white"
-            text: slides[_currentSlideIndex].title
-
             font {
                 family: "Montserrat"
                 capitalization: Font.AllUppercase
                 weight: Font.DemiBold
                 pointSize: 18
             }
-
+            color: "white"
+            text: slides[_currentSlideIndex].title
         }
-
         Text {
             id: secondaryTitleText
-
-            color: "white"
-            text: slides[_currentSlideIndex].secondaryTitle ?? ""
-
             font {
                 family: "Montserrat"
                 weight: Font.Light
                 pointSize: 12
             }
-
+            color: "white"
+            text: slides[_currentSlideIndex].secondaryTitle ?? ""
         }
-
         Text {
             id: bodyText
-
+            font {
+                family: "Montserrat"
+                pointSize: 12
+            }
             width: 400
             color: "white"
             text: slides[_currentSlideIndex].body
             wrapMode: Text.Wrap
-
-            font {
-                family: "Montserrat"
-                pointSize: 12
-            }
-
         }
 
         Text {
             id: footerText
-
-            width: 400
-            color: "white"
-            text: slides[_currentSlideIndex].footer ?? ""
-            wrapMode: Text.Wrap
-
             font {
                 family: "Montserrat"
                 weight: Font.Light
                 pointSize: 12
             }
-
+            width: 400
+            color: "white"
+            text: slides[_currentSlideIndex].footer ?? ""
+            wrapMode: Text.Wrap
         }
-
     }
 
     SequentialAnimation {
         id: transitionAnimation
-
         property int duration: 700
 
         ParallelAnimation {
             OpacityAnimator {
                 target: titleText
-                from: 1
-                to: 0
+                from: 1.0
+                to: 0.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: secondaryTitleText
-                from: 1
-                to: 0
+                from: 1.0
+                to: 0.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: bodyText
-                from: 1
-                to: 0
+                from: 1.0
+                to: 0.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: footerText
-                from: 1
-                to: 0
+                from: 1.0
+                to: 0.0
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: titleText
                 from: 0
                 to: -30
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: secondaryTitleText
                 from: 0
                 to: -30
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: bodyText
                 from: 0
                 to: -25
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: footerText
                 from: 0
                 to: -25
                 duration: transitionAnimation.duration
             }
-
         }
 
         ScriptAction {
@@ -157,62 +135,52 @@ Item {
         ParallelAnimation {
             OpacityAnimator {
                 target: titleText
-                from: 0
-                to: 1
+                from: 0.0
+                to: 1.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: secondaryTitleText
-                from: 0
-                to: 1
+                from: 0.0
+                to: 1.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: bodyText
-                from: 0
-                to: 1
+                from: 0.0
+                to: 1.0
                 duration: transitionAnimation.duration
             }
-
             OpacityAnimator {
                 target: footerText
-                from: 0
-                to: 1
+                from: 0.0
+                to: 1.0
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: titleText
                 from: 30
                 to: 0
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: secondaryTitleText
                 from: 30
                 to: 0
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: bodyText
                 from: 25
                 to: 0
                 duration: transitionAnimation.duration
             }
-
             XAnimator {
                 target: footerText
                 from: 25
                 to: 0
                 duration: transitionAnimation.duration
             }
-
         }
-
     }
-
 }

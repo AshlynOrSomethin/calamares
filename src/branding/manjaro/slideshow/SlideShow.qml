@@ -70,50 +70,5 @@ Item {
             horizontalCenterOffset: -100
             verticalCenterOffset: -57
         }
-
     }
-
-    Row {
-        id: sponsoredBy
-
-        spacing: 5
-
-        anchors {
-            bottom: parent.bottom
-            right: parent.right
-            margins: 10
-        }
-
-        Text {
-            height: 30
-            font.family: "Montserrat"
-            color: "white"
-            text: qsTr("Brought to you by")
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Image {
-            source: "sponsor.svg"
-            onStatusChanged: {
-                if ((status == Image.Error))
-                    sponsoredBy.visible = false;
-
-            }
-
-            sourceSize {
-                height: 30
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    Qt.openUrlExternally("./sponsor.html");
-                }
-            }
-
-        }
-
-    }
-
 }
