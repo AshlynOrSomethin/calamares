@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
-#   Copyright 2014 - 2021, Philip Müller <philm@manjaro.org>
+#   Copyright 2014 - 2024, Philip Müller <philm@manjaro.org>
 #   Copyright 2016, Artoo <artoo@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
@@ -101,13 +101,6 @@ class ConfigController:
         if libcalamares.globalstorage.value("hasInternet"):
             target_env_call(["pacman", "-Syy"])
 
-        # Remove unneeded ucode
-        cpu_ucode = subprocess.getoutput("hwinfo --cpu | grep Vendor: -m1 | cut -d\'\"\' -f2")
-        if cpu_ucode == "AuthenticAMD":
-            self.remove_pkg("intel-ucode", "boot/intel-ucode.img")
-        elif cpu_ucode == "GenuineIntel":
-            self.remove_pkg("amd-ucode", "boot/amd-ucode.img")
-
         # Remove symlinks before copying   
         self.remove_symlink('root')
 
@@ -120,10 +113,6 @@ class ConfigController:
         # around we can't reliably unmount
         # the target partition.
         self.terminate('gpg-agent')
-
-        # Update grub.cfg
-        if exists(join(self.root, "usr/bin/update-grub")):
-            target_env_call(["update-grub"])
 
         # Enable 'menu_auto_hide' when supported in grubenv
         if exists(join(self.root, "usr/bin/grub-set-bootflag")):
