@@ -67,7 +67,7 @@ class ConfigController:
 
     def copy_folder(self, source, target):
         if exists("/" + source):
-            copytree("/" + source, join(self.root, target), preserve_symlinks=1)
+            copytree("/" + source, join(self.root, target), symlinks=True, ignore_dangling_symlinks=True, dirs_exist_ok=True)
 
     def remove_pkg(self, pkg, path):
         if exists(join(self.root, path)):
