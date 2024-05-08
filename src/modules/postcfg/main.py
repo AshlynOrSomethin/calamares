@@ -23,8 +23,7 @@ import libcalamares
 import subprocess
 import os
 
-from shutil import copy2
-from distutils.dir_util import copy_tree
+from shutil import copy2, copytree
 from os.path import join, exists
 from libcalamares.utils import target_env_call
 
@@ -68,7 +67,7 @@ class ConfigController:
 
     def copy_folder(self, source, target):
         if exists("/" + source):
-            copy_tree("/" + source, join(self.root, target), preserve_symlinks=1)
+            copytree("/" + source, join(self.root, target), preserve_symlinks=1)
 
     def remove_pkg(self, pkg, path):
         if exists(join(self.root, path)):
