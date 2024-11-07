@@ -112,6 +112,11 @@ class ConfigController:
         # around we can't reliably unmount
         # the target partition.
         self.terminate('gpg-agent')
+        
+        # Workaround for BTRFS amd-ucode.img bug
+        # https://gitlab.manjaro.org/release-plan/calamares/-/issues/2
+        # We have to copy the amd-ucode.img from the live-session over to target
+        self.copy_file('boot/amd-ucode.img')
 
         # Enable 'menu_auto_hide' when supported in grubenv
         if exists(join(self.root, "usr/bin/grub-set-bootflag")):
