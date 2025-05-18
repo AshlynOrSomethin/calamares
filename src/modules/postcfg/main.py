@@ -142,14 +142,15 @@ class ConfigController:
         self.remove_pkg("calamares-git", "usr/bin/calamares")
 
         # Make sure root folder is set to 750
-        root_folder = join(self.root, "root")
-        existing_root_mode = os.stat(root_folder).st_mode & 0o755
+        root_home = join(self.root, "root")
+        existing_root_mode = os.stat(root_home).st_mode & 0o755
         if existing_root_mode == 0o755:
                 try:
-                    os.chmod(root_folder, 0o750)  # Want /root to be rwxr-x-x
+                    os.chmod(root_home, 0o750)  # Want /root to be rwxr-x---
                 except OSError as e:
                     libcalamares.utils.warning("Could not set /root to safe permissions: {}".format(e))
                     # But ignore it
+                    pass
 
         return None
 
