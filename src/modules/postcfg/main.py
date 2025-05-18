@@ -146,7 +146,7 @@ class ConfigController:
         existing_root_mode = os.stat(root_folder).st_mode & 0o755
         if existing_root_mode == 0o755:
                 try:
-                    os.chmod(root_folder, 0o750)  # Want / to be rwxr-x-x
+                    os.chmod(root_folder, 0o750)  # Want /root to be rwxr-x-x
                 except OSError as e:
                     libcalamares.utils.warning("Could not set /root to safe permissions: {}".format(e))
                     # But ignore it
