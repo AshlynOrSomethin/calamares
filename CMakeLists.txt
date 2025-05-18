@@ -140,7 +140,7 @@ set(USE_services "" CACHE STRING "Select the services module to use")
 ### Calamares application info
 #
 set(CALAMARES_ORGANIZATION_NAME "Calamares")
-set(CALAMARES_ORGANIZATION_DOMAIN "github.com/calamares")
+set(CALAMARES_ORGANIZATION_DOMAIN "calamares.io")
 set(CALAMARES_APPLICATION_NAME "Calamares")
 set(CALAMARES_DESCRIPTION_SUMMARY "The distribution-independent installer framework")
 
@@ -569,7 +569,7 @@ add_subdirectory(lang) # i18n tools
 # squashed into the example filesystem.
 #
 # To build the example distro (for use by the default, example,
-# unsquashfs module), build the target 'example-distro', eg.:
+# unsquashfs module), build the target *example-distro*, eg.:
 #
 #   make example-distro
 #
@@ -708,7 +708,7 @@ install(
 #
 #
 if(INSTALL_POLKIT)
-    install(FILES com.github.calamares.calamares.policy DESTINATION "${POLKITQT-1_POLICY_FILES_INSTALL_DIR}")
+    install(FILES io.calamares.calamares.policy DESTINATION "${POLKITQT-1_POLICY_FILES_INSTALL_DIR}")
 endif()
 
 if(INSTALL_COMPLETION)
