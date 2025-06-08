@@ -14,6 +14,7 @@
 import libcalamares
 from libcalamares.utils import debug, target_env_call
 import os
+import platform
 from collections import OrderedDict
 
 import gettext
@@ -26,6 +27,16 @@ _ = gettext.translation("calamares-python",
 def pretty_name():
     return _("Configuring mkinitcpio.")
 
+
+def use_crc32_intel() -> bool:
+    """
+    Return a boolean to indicate if mkinitcpio.conf 
+    should reference 'crc32c_intel' or 'crc32c'
+
+    @return False if kernel is newer than 6.12
+    """
+    kernel_release = platform.release().split('.')
+    return  int(f"{kernel_release[0]}{kernel_release[1]}") < 613
 
 def detect_plymouth():
     """
@@ -250,7 +261,8 @@ def find_initcpio_features(partitions, root_mount_point):
         hooks.extend(["filesystems"])
 
     if uses_btrfs:
-        modules.append("crc32c-intel" if cpuinfo().is_intel else "crc32c")
+        if use_crc32_intel:
+            modules.append("crc32c-intel" if cpuinfo().is_intel else "crc32c")
     else:
         hooks.append("fsck")
 
