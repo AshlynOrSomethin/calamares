@@ -123,12 +123,12 @@ Rectangle {
                 Layout.fillWidth: true
             }
             Shape {
-                id: manjaroShape
+                id: parchedShape
                 Layout.preferredHeight: 27
                 Layout.preferredWidth: 27
 
                 ShapePath {
-                    scale: Qt.size((manjaroShape.width-1)/200, (manjaroShape.height-1)/200)
+                    scale: Qt.size((parchedShape.width-1)/200, (parchedShape.height-1)/200)
 
                     fillColor: systemPalette.highlight
                     strokeWidth: -1
@@ -139,7 +139,7 @@ Rectangle {
             }
 
             Label {
-                text: "manjaro"
+                text: "parched"
                 font.pointSize: 16
                 font.family: "Comfortaa"
                 color: Branding.styleString(Branding.SidebarText)

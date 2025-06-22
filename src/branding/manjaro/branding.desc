@@ -8,7 +8,7 @@
 # Additional styling can be done using the stylesheet.qss
 # file, also in the branding directory.
 ---
-componentName:  manjaro
+componentName:  parched
 
 
 ### WELCOME / OVERALL WORDING
@@ -121,18 +121,18 @@ navigation: widget
 # are visible as buttons there if the corresponding *show* keys
 # are set to "true" (they can also be overridden).
 strings:
-    productName:         Manjaro Linux
-    shortProductName:    Manjaro
-    version:             22.0.0
-    shortVersion:        22.0
-    versionedName:       Manjaro Linux 22.0
-    shortVersionedName:  Manjaro 22.0
-    bootloaderEntryName: Manjaro
-    productUrl:          https://manjaro.org/
-    supportUrl:          https://forum.manjaro.org/
-    knownIssuesUrl:      https://gitlab.manjaro.org/
-    releaseNotesUrl:     https://blog.manjaro.org/
-    donateUrl:           https://manjaro.org/donate/
+    productName:         pArched Linux
+    shortProductName:    pArched
+    version:             25.0.0
+    shortVersion:        25.0
+    versionedName:       pArched Linux 25.0
+    shortVersionedName:  pArched 22.0
+    bootloaderEntryName: pArched
+    productUrl:          https://onlyhit.xyz/
+    supportUrl:          https://https://discord.gg/5W9VQAP37R/
+    knownIssuesUrl:      https://github.com/AshlynOrSomethin/calamares/
+    releaseNotesUrl:     https://onlyhit.xyz/
+    donateUrl:           https://paypal.me/ashlynorsomethin/
 
 # These images are loaded from the branding module directory.
 #
@@ -182,7 +182,7 @@ images:
 style:
    SidebarBackground:    "#263238"
    SidebarText:          "#efefef"
-   SidebarTextSelect:    "#4d915e"
+   SidebarTextSelect:    "#0033cc"
    SidebarTextHighlight: "#1a1c1b"
 
 
