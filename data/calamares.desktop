@@ -1,13 +1,13 @@
 [Desktop Entry]
 Type=Application
 Version=1.0
-Name=Install Manjaro Linux
-Name[da]=Installer Manjaro Linux
+Name=Install pArched Linux
+Name[da]=Installer pArched Linux
 GenericName=Live Installer
 GenericName[da]=Live-installationsprogram
 Comment=Install the operating system to disk
 Comment[da]=Installer styresystemet på disk
-Comment[de]=Manjaro Linux installieren
+Comment[de]=pArched Linux installieren
 Exec=/usr/bin/calamares_polkit %f
 Icon=calamares
 Terminal=false

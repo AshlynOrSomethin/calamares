@@ -46,7 +46,7 @@ Item {
         slides: [
             Slide {
                 title: qsTr("Hello")
-                body: qsTr("Manjaro is simple and elegant yet fully customizable. Use as is or create something incredible? You decide.")
+                body: qsTr("pArched is simple and elegant yet fully customizable. Use as is or create something incredible? You decide.")
                 footer: qsTr("During the installation, this slideshow will provide a quick introduction.")
             },
             Slide {
@@ -61,7 +61,7 @@ Item {
             Slide {
                 title: qsTr("Thank You")
                 body: qsTr("It's time to relax and prepare for new adventures.")
-                footer: qsTr("Check our forum and wiki if you have any questions or feedback.")
+                footer: qsTr("")
             }
         ]
 
