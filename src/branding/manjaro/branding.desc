@@ -126,7 +126,7 @@ strings:
     version:             25.0.0
     shortVersion:        25.0
     versionedName:       pArched Linux 25.0
-    shortVersionedName:  pArched 22.0
+    shortVersionedName:  pArched 25.0
     bootloaderEntryName: pArched
     productUrl:          https://onlyhit.xyz/
     supportUrl:          https://https://discord.gg/5W9VQAP37R/
