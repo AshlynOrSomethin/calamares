@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/choose-office.jpg</file>
-        <file>images/FreeOffice.jpg</file>
-        <file>images/LibreOffice.jpg</file>
+        <file>images/no-selection.png</file>
+        <file>images/calamares.png</file>
     </qresource>
 </RCC>
