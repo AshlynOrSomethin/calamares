@@ -4,8 +4,8 @@
   selected: true
   critical: true
   packages:
-     - archlinux-kernel-manager
-     - archlinux-tweak-tool-git
+    - archlinux-kernel-manager
+    - archlinux-tweak-tool-git
 - name: "Communication Apps""
   description: "Chat Applications"
   hidden: false
@@ -46,33 +46,33 @@
   selected: false
   critical: false
   packages:
-  - libreoffice-fresh
-  - openoffice-bin
-  - onlyoffice-bin
+    - libreoffice-fresh
+    - openoffice-bin
+    - onlyoffice-bin
 - name: "Multimedia"
   description: "Media players, recording, editing"
   hidden: false
   selected: false
   critical: false
   packages:
-  - kdenlive
-  - vlc
-  - obs-studio
-  - obs-studio-tytan652
-  - spotify
-  - mpv
+    - kdenlive
+    - vlc
+    - obs-studio
+    - obs-studio-tytan652
+    - spotify
+    - mpv
 - name: "Games"
   description: "Applications for Gaming"
   hidden: false
   selected: false
   critical: false
   packages:
-  - prismlauncher-qt5-bin
-  - protonup-qt-bin
-  - bottles
-  - heroic-games-launcher-bin
-  - lutris
-  - dolphin-emu
+    - prismlauncher-qt5-bin
+    - protonup-qt-bin
+    - bottles
+    - heroic-games-launcher-bin
+    - lutris
+    - dolphin-emu
 - name: "Base-devel + Common packages"
   description: "Recommended. Don't change unless you know what you're doing (generic)."
   hidden: false
