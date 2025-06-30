@@ -36,7 +36,7 @@
           - xl2tpd
       - name: "firewall"
         description: "Firewall support"
-        selected: true
+        selected: false
         packages:
           - ufw
       - name: "bluetooth"
