@@ -1,6 +1,6 @@
 - name: "Base-devel + Common packages"
   description: "Recommended. Don't change unless you know what you're doing (generic)."
-  hidden: false
+  hidden: true
   selected: true
   critical: true
   subgroups:
@@ -168,22 +168,105 @@
           - nano
           - vim
           - openssh
-- name: "CPU specific Microcode update packages"
-  description: "Microcode update image for AMD and Intel CPU"
+- name: "Arch Linux Utils"
+  description: "Recommended Apps for Arch Linux Convenience"
   hidden: false
   selected: true
   critical: false
   packages:
-    - amd-ucode
-    - intel-ucode
-- name: "Firefox and language package"
-  description: "Add firefox and language pack if possible"
+    - archlinux-kernel-manager
+    - archlinux-tweak-tool-git
+- name: "Recommended Browsers"
+  description: "Default to pArched"
   hidden: false
   selected: true
+  critical: false
+  packages:
+    - floorp-bin
+    - thorium-browser-bin
+- name: "Other Browsers"
+  description: "Not Used by pArched for default package list"
+  hidden: false
+  selected: false
   critical: false
   packages:
     - firefox
-    - firefox-i18n-$LOCALE
+    - zen-browser-bin
+    - ungoogled-chromium-bin
+    - chromium
+    - google-chrome
+    - vivaldi
+    - vivaldi-ffmpeg-codecs
+- name: "Communications"
+  description: "Desktop Chat Apps"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - discord
+    - equibop-bin
+    - vesktop-bin
+    - telegram-desktop
+    - element-desktop
+- name: "Development"
+  description: "Apps Recommended for Software Development"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - clion
+    - intellij-idea-community-edition
+    - vscodium-bin
+    - vscodium-bin-features
+    - vscodium-bin-marketplace
+    - code
+    - code-features
+    - code-marketplace
+    - visual-studio-code-bin
+    - sublime-text-4
+    - sublime-merge
+    - github-cli
+    - github-desktop-bin
+    - meld
+    - notepadqq
+    - kate
+    - xpipie-bin
+- name: "Office"
+  description: "Office Suites - LibreOffice Recommended"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - LibreOffice-fresh
+    - onlyoffice-bin
+    - openoffice-bin
+- name: "Multimedia"
+  description: "General Media Apps - OBS Tytan Recommended for high end computers running OBS"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - vlc
+    - mpv
+    - obs-studio
+    - obs-studio-tytan652
+    - gimp
+    - krita
+    - kdenlive
+    - spotify
+- name: "Gaming"
+  description: "Gaming"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - prismlauncher-qt5-bin
+    - steam
+    - lutris
+    - protonup-qt-bin
+    - modrinth-app-bin
+    - nexusmods-app-bin
+    - modrinth-app-bin
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
