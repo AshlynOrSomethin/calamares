@@ -1,6 +1,6 @@
 - name: "Base-devel + Common packages"
   description: "Recommended. Don't change unless you know what you're doing (generic)."
-  hidden: true
+  hidden: false
   selected: true
   critical: true
   subgroups:
