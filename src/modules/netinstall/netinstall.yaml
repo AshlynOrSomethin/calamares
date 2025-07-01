@@ -52,11 +52,7 @@
         selected: true
         packages:
           - pacman-contrib
-          - pkgfile
-          - rebuild-detector
           - reflector
-          - paru
-          - octopi
       - name: "desktop integration"
         description: "Useful helper tools and libs for desktop usage"
         selected: true
