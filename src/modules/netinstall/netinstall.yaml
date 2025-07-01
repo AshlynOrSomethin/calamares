@@ -92,22 +92,7 @@
         description: "CachyOS font selection"
         selected: true
         packages:
-          - adobe-source-han-sans-cn-fonts
-          - adobe-source-han-sans-jp-fonts
-          - adobe-source-han-sans-kr-fonts
-          - awesome-terminal-fonts
-          - noto-fonts-emoji
-          - noto-color-emoji-fontconfig
-          - cantarell-fonts
-          - freetype2
-          - noto-fonts
-          - opendesktop-fonts
-          - ttf-bitstream-vera
-          - ttf-dejavu
-          - ttf-liberation
-          - ttf-opensans
-          - ttf-meslo-nerd
-          - noto-fonts-cjk
+          - all-repository-fonts
       - name: "audio"
         description: "Audio handling tools apps and libs"
         selected: true
