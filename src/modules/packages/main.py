@@ -512,6 +512,7 @@ class PMPacman(PackageManager):
     def update_db(self):
         try:
             check_target_env_call(["ping", "-c", "1", "google.com"])
+            libcalamares.utils.debug("Internet connectivity confirmed in chroot.")
         except subprocess.CalledProcessError:
             libcalamares.utils.warning("No internet in chroot environment.")
             raise RuntimeError("No network access in target environment.")
