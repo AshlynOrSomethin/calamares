@@ -119,7 +119,7 @@
         selected: true
         packages:
           - cpupower
-          - tlp
+          - power-profiles-daemon
           - upower
       - name: "Some applications selection"
         description: "General tools and applications"
