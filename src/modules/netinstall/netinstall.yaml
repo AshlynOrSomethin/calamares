@@ -119,13 +119,12 @@
         selected: true
         packages:
           - cpupower
-          - power-profiles-daemon
+          - tlp
           - upower
       - name: "Some applications selection"
         description: "General tools and applications"
         selected: true
         packages:
-          - alacritty
           - btop
           - duf
           - findutils
@@ -134,7 +133,6 @@
           - glances
           - hwinfo
           - inxi
-          - meld
           - nano-syntax-highlighting
           - fastfetch
           - pv
@@ -142,12 +140,9 @@
           - python-packaging
           - rsync
           - sed
-          - vi
           - wget
           - ripgrep
-          - micro
           - nano
-          - vim
           - openssh
 - name: "Arch Linux Utils"
   description: "Recommended Apps for Arch Linux Convenience"
