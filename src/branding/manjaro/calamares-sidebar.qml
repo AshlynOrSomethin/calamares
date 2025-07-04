@@ -128,7 +128,7 @@ Rectangle {
                 Layout.preferredWidth: 27
 
                 ShapePath {
-                    scale: Qt.size((parchedShape.width-1), (parchedShape.height-1))
+                    scale: Qt.size((parchedShape.width-1)/20, (parchedShape.height-1)/20)
 
                     fillColor: systemPalette.highlight
                     strokeWidth: -1
