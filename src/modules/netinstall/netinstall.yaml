@@ -317,8 +317,6 @@
     - okular
     - kdenlive
     - spotify
-    - high-tide
-    - cider
 - name: "Wine"
   description: "Wine Applications - All Recommended"
   hidden: false
