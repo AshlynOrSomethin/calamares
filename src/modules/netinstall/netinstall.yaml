@@ -85,7 +85,7 @@
           - unzip
           - xz
       - name: "fonts"
-        description: "CachyOS font selection"
+        description: "pArched font selection"
         selected: true
         packages:
           - all-repository-fonts
@@ -189,31 +189,127 @@
   hidden: false
   selected: false
   critical: false
-  packages:
-    - clion
-    - intellij-idea-community-edition
-    - vscodium-bin
-    - vscodium-bin-features
-    - vscodium-bin-marketplace
-    - code
-    - code-features
-    - code-marketplace
-    - visual-studio-code-bin
-    - sublime-text-4
-    - sublime-merge
-    - github-cli
-    - github-desktop-bin
-    - meld
-    - notepadqq
-    - kate
-    - xpipie-bin
+  subgroups:
+      - name: "Intellij"
+        description: "Standalone Apps and Toolbox"
+        selected: false
+        packages:
+          - intellij-idea-community-edition
+          - intellij-idea-ultimate-edition
+          - pycharm-community-edition
+          - pycharm-professional
+          - rider
+          - phpstorm
+          - goland
+          - clion
+          - rustrover
+          - webstorm
+          - rubymine
+          - datagrip
+          - jetbrains-toolbox
+  subgroups:
+      - name: "VSCode"
+        description: "Recommended all packages of the same name be installed."
+        selected: false
+        packages:
+          - vscodium-bin
+          - vscodium-bin-features
+          - vscodium-bad-marketplace
+          - code
+          - code-features
+          - code-marketplace
+          - visual-studio-code-bin
+  subgroups:
+      - name: "Sublime"
+        description: "Text and Merge"
+        selected: false
+        packages:
+          - sublime-text-4
+          - sublime-merge
+  subgroups:
+      - name: "Github"
+        description: "Github Apps For Linux"
+        selected: false
+        packages:
+          - github-cli
+          - github-desktop-bin
+  subgroups:
+      - name: "Other"
+        description: "General Development Apps"
+        selected: false
+        packages:
+          - meld
+          - notepadqq
+          - kate
+          - xpipe-bin
+- name: "Java"
+  description: "Zulu Recommended"
+  hidden: false
+  selected: false
+  critical: false
+  subgroups:
+      - name: "OpenJDK"
+        description: "Open Source Java Dev Kit; Versions not numbered are assumed latest"
+        selected: false
+        packages:
+          - jdk-openjdk
+          - jdk21-openjdk
+          - jdk17-openjdk
+          - jdk11-openjdk
+          - jdk8-openjdk
+  subgroups:
+      - name: "Amazon Corretoo"
+        description: "Amazon AWS Implementation of OpenJDK"
+        selected: false
+        packages:
+          - amazon-corretto-21-bin
+          - amazon-corretto-17
+          - amazon-corretto-11
+          - amazon-corretto-8
+  subgroups:
+      - name: "Azul Zulu JDK"
+        description: "Azul High Performance JDK Implementation"
+        selected: false
+        packages:
+          - zing-21-bin
+          - zulu-21-bin
+          - jdk17-zulu-prime-bin
+          - zulu-17-bin
+          - zulu-11-bin
+          - zing-8-bin
+          - zulu-8-bin
+  subgroups:
+      - name: "Eclipse Adoptium/Temurin"
+        description: "Eclipse Implementation of JDK based on Hotspot/AdoptOpenJDK"
+        selected: false
+        packages:
+          - jdk-temurin
+          - jdk17-temurin
+          - jdk11-temurin
+  subgroups:
+      - name: "Liberica JDK"
+        description: "BellSoft JDK Implementation"
+        selected: false
+        packages:
+          - liberica-jdk-21-full-bin
+          - liberica-jdk-17-full-bin
+          - liberica-jdk-11-full-bin
+          - liberica-jdk-8-full-bin
+  subgroups:
+      - name: "Microsoft OpenJDK"
+        description: "Microsoft distribution of OpenJDK"
+        selected: false
+        packages:
+          - microsoft-openjdk-21-bin
+          - microsoft-openjdk-17-bin
+          - microsoft-openjdk-11-bin
 - name: "Office"
   description: "Office Suites - LibreOffice Recommended"
   hidden: false
   selected: false
   critical: false
   packages:
-    - LibreOffice-fresh
+    - libreoffice-fresh
     - onlyoffice-bin
     - openoffice-bin
 - name: "Multimedia"
@@ -228,21 +324,38 @@
     - obs-studio-tytan652
     - gimp
     - krita
+    - okular
     - kdenlive
     - spotify
+    - high-tide
+    - cider
 - name: "Gaming"
   description: "Gaming"
   hidden: false
   selected: false
   critical: false
-  packages:
-    - prismlauncher-qt5-bin
-    - steam
-    - lutris
-    - protonup-qt-bin
-    - modrinth-app-bin
-    - nexusmods-app-bin
-    - modrinth-app-bin
+  subgroups:
+      - name: "Minecraft"
+        description: "Minecraft Launchers"
+        selected: false
+        packages:
+          - prismlauncher
+          - elyprismlauncher-bin
+          - modrinth-app-bin
+          - lunar-client
+          - minecraft
+  subgroups:
+      - name: "Other"
+        description: "General Linux Game Launchers and Utilities"
+        selected: false
+        packages:
+          - steam
+          - lutris
+          - nexusmods-app-bin
+          - heroic-games-launcher-bin
+          - gameshub
+          - umu-launcher
+          - hydra-launcher-bin
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
@@ -275,12 +388,21 @@
     - cups
     - cups-filters
     - cups-pdf
-- name: "Accessibility Tools"
-  description: "Screen reader and mouse tweaks (impaired vision)"
+- name: "Accessibility Tools - RGB Software etc"
+  description: "General Quality of Life Applications"
   hidden: false
   selected: false
-  critical: true
+  critical: false
   packages:
     - espeak-ng
     - mousetweaks
     - orca
+    - openrgb
+- name: "Overclocking Utilities"
+  description: "Not Recommended - Proceed at Your Own Risk"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - tuxclocker
+    - lact
