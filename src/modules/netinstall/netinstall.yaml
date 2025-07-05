@@ -302,7 +302,6 @@
     - libreoffice-fresh
     - onlyoffice-bin
     - openoffice-bin
-    - ms-office-online
 - name: "Multimedia"
   description: "General Media Apps - OBS Tytan Recommended for high end computers running OBS"
   hidden: false
@@ -346,7 +345,7 @@
           - elyprismlauncher-bin
           - modrinth-app-bin
           - lunar-client
-          - minecraft
+          - minecraft-launcher
       - name: "Other"
         description: "General Linux Game Launchers and Utilities"
         selected: false
@@ -355,7 +354,7 @@
           - lutris
           - nexusmods-app-bin
           - heroic-games-launcher-bin
-          - gameshub
+          - gamehub
           - umu-launcher
           - hydra-launcher-bin
           - gamemode
