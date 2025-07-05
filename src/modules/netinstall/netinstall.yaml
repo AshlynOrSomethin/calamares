@@ -151,7 +151,6 @@
   critical: false
   packages:
     - archlinux-kernel-manager
-    - archlinux-tweak-tool-git
 - name: "Recommended Browsers"
   description: "Default to pArched"
   hidden: false
@@ -321,6 +320,18 @@
     - spotify
     - high-tide
     - cider
+- name: "Wine"
+  description: "Wine Applications - All Recommended"
+  hidden: false
+  selected: true
+  critical: false
+  packages:
+    - wine-staging
+    - wine-gecko
+    - wine-mono
+    - wine-nine
+    - winetricks
+    - bottles
 - name: "Gaming"
   description: "Gaming"
   hidden: false
@@ -347,6 +358,7 @@
           - gameshub
           - umu-launcher
           - hydra-launcher-bin
+          - gamemode
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
