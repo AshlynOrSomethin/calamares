@@ -207,7 +207,6 @@
           - rubymine
           - datagrip
           - jetbrains-toolbox
-  subgroups:
       - name: "VSCode"
         description: "Recommended all packages of the same name be installed."
         selected: false
@@ -219,21 +218,18 @@
           - code-features
           - code-marketplace
           - visual-studio-code-bin
-  subgroups:
       - name: "Sublime"
         description: "Text and Merge"
         selected: false
         packages:
           - sublime-text-4
           - sublime-merge
-  subgroups:
       - name: "Github"
         description: "Github Apps For Linux"
         selected: false
         packages:
           - github-cli
           - github-desktop-bin
-  subgroups:
       - name: "Other"
         description: "General Development Apps"
         selected: false
@@ -243,7 +239,7 @@
           - kate
           - xpipe-bin
 - name: "Java"
-  description: "Zulu Recommended"
+  description: "All versions are development kits, contains the main java too."
   hidden: false
   selected: false
   critical: false
@@ -257,7 +253,6 @@
           - jdk17-openjdk
           - jdk11-openjdk
           - jdk8-openjdk
-  subgroups:
       - name: "Amazon Corretoo"
         description: "Amazon AWS Implementation of OpenJDK"
         selected: false
@@ -266,7 +261,6 @@
           - amazon-corretto-17
           - amazon-corretto-11
           - amazon-corretto-8
-  subgroups:
       - name: "Azul Zulu JDK"
         description: "Azul High Performance JDK Implementation"
         selected: false
@@ -278,7 +272,6 @@
           - zulu-11-bin
           - zing-8-bin
           - zulu-8-bin
-  subgroups:
       - name: "Eclipse Adoptium/Temurin"
         description: "Eclipse Implementation of JDK based on Hotspot/AdoptOpenJDK"
         selected: false
@@ -286,7 +279,6 @@
           - jdk-temurin
           - jdk17-temurin
           - jdk11-temurin
-  subgroups:
       - name: "Liberica JDK"
         description: "BellSoft JDK Implementation"
         selected: false
@@ -295,7 +287,6 @@
           - liberica-jdk-17-full-bin
           - liberica-jdk-11-full-bin
           - liberica-jdk-8-full-bin
-  subgroups:
       - name: "Microsoft OpenJDK"
         description: "Microsoft distribution of OpenJDK"
         selected: false
@@ -312,6 +303,7 @@
     - libreoffice-fresh
     - onlyoffice-bin
     - openoffice-bin
+    - ms-office-online
 - name: "Multimedia"
   description: "General Media Apps - OBS Tytan Recommended for high end computers running OBS"
   hidden: false
@@ -344,7 +336,6 @@
           - modrinth-app-bin
           - lunar-client
           - minecraft
-  subgroups:
       - name: "Other"
         description: "General Linux Game Launchers and Utilities"
         selected: false
