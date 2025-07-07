@@ -183,6 +183,7 @@
     - vesktop-bin
     - telegram-desktop
     - element-desktop
+    - beeper-v4-bin
 - name: "Development"
   description: "Apps Recommended for Software Development"
   hidden: false
